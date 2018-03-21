@@ -1,0 +1,29 @@
+---
+- name: Download Nextcloud
+  get_url: url=https://download.nextcloud.com/server/releases/nextcloud-{{ nc_version }}.tar.bz2
+           dest=/var/www/nextcloud-{{ nc_version }}.tar.bz2
+           sha256sum="{{ nc_sha256sum }}"
+
+- name: Extract archive
+  command: chdir=/var/www/ /bin/tar xvf nextcloud-{{ nc_version }}.tar.bz2 creates=/var/www/nextcloud
+
+- name: Add group "nextcloud"
+  group: name=nextcloud
+
+- name: Add user "nextcloud"
+  user: name=nextcloud group=nextcloud home=/var/www/nextcloud/
+
+- name: Create Nextcloud database
+  mysql_db: name={{ nc_db_name }} state=present
+
+- name: Create Nextcloud database user
+  mysql_user: name={{ nc_db_user }} password={{ nc_db_password }} priv={{ nc_db_name }}.*:ALL host='localhost' state=present
+
+- name: Copy Nextcloud config file
+  template: src=config.php dest=/var/www/nextcloud/
+
+- name: Change ownership of Nextcloud installation
+  file: path=/var/www/nextcloud/ owner=nextcloud group=nextcloud state=directory recurse=yes setype=httpd_sys_content_t
+
+- name: Start php-fpm Service
+  service: name=php-fpm state=started enabled=yes

@@ -1,0 +1,8 @@
+---
+- name: Install some basic packages
+  apt: name={{ item }} state=present
+  with_items:
+   - ufw
+
+- name: Reload ansible_facts
+  setup:

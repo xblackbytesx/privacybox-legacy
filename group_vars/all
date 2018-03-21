@@ -1,0 +1,15 @@
+---
+# Which version of Nextcloud to deploy
+nc_version: 13.0.1
+nc_sha256sum: 5743314a71e972ae46a14b36b37394d4545915aa5f32d9e12ba786d04c1f1d11
+
+# These are the Nextcloud database settings
+nc_db_name: nextcloud
+nc_db_user: nextcloud
+nc_db_password: secret
+
+# You shouldn't need to change this.
+mysql_port: 3306
+
+# This is used for the nginx server configuration, but access to the
+server_hostname: www.example.com
