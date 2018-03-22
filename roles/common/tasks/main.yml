@@ -8,9 +8,9 @@
    - screen
 
 - ufw:
-  state: enabled
-  rule: allow
-  port: 22
+    state: enabled
+    rule: allow
+    port: 22
 
 - name: Reload ansible_facts
   setup:

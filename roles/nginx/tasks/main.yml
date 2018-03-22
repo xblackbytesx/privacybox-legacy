@@ -7,7 +7,7 @@
 #   notify: restart nginx
 
 - ufw:
-  state: enabled
-  rule: allow
-  port: 80
-  proto: tcp
+    state: enabled
+    rule: allow
+    port: 80
+    proto: tcp
