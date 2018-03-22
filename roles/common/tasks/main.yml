@@ -3,6 +3,14 @@
   apt: name={{ item }} state=present
   with_items:
    - ufw
+   - vim
+   - git
+   - screen
+
+- ufw:
+  state: enabled
+  rule: allow
+  port: 22
 
 - name: Reload ansible_facts
   setup:
