@@ -7,6 +7,9 @@
 - name: Extract archive
   command: chdir=/var/www/ /bin/tar xvf nextcloud-{{ nc_version }}.tar.bz2 creates=/var/www/nextcloud
 
+- name: Remove the extracted archive
+  file: path=/var/www/nextcloud-{{ nc_version }}.tar.bz2 state=absent
+
 - name: Add group "nextcloud"
   group: name=nextcloud
 

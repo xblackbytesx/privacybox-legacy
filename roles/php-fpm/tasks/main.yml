@@ -26,4 +26,4 @@
 #   notify: restart php-fpm
 
 - name: Copy phpinfo
-  template: src=phpinfo.php dest=/var/www/html/
+  template: src=phpinfo.php dest=/var/www/

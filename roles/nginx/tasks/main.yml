@@ -11,3 +11,11 @@
     rule: allow
     port: 80
     proto: tcp
+
+- name: Remove the default html folder
+  file:
+    state: absent
+    path: /var/www/html
+
+- name: Copy privacybox welcome page
+  template: src=index.html dest=/var/www/
