@@ -26,4 +26,4 @@
   file: path=/var/www/nextcloud/ owner=nextcloud group=nextcloud state=directory recurse=yes setype=httpd_sys_content_t
 
 - name: Start php-fpm Service
-  service: name=php-fpm state=started enabled=yes
+  service: name=php7.0-fpm state=started enabled=yes

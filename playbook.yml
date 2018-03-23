@@ -1,5 +1,5 @@
 ---
-- name: Install MySQL, Nginx, and PHP-FPM
+- name: Install MariaDB, Nginx, and PHP-FPM
   hosts: all
   remote_user: fabio
   become: yes
@@ -7,6 +7,7 @@
 
   roles:
     - common
-    - mysql
+    - mariadb
     - nginx
     - php-fpm
+    - nextcloud

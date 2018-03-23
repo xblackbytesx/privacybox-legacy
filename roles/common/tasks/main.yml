@@ -1,4 +1,10 @@
 ---
+- name: Install Python tools
+  apt: name={{ item }} state=present
+  with_items:
+   - python-dev
+   - python-pip
+
 - name: Install some basic packages
   apt: name={{ item }} state=present
   with_items:
