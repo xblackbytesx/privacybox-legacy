@@ -16,6 +16,7 @@
     - php7.0-sqlite3
     - php7.0-mysql
     - php7.0-curl
+    - composer
 
 # - name: Disable default pool
 #   command: mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.disabled creates=/etc/php-fpm.d/www.disabled

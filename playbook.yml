@@ -11,3 +11,4 @@
     - nginx
     - php-fpm
     - nextcloud
+    - wallabag
