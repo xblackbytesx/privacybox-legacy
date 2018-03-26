@@ -5,7 +5,7 @@ $CONFIG = array (
   'secret' => '',
   'trusted_domains' =>
   array (
-    0 => 'example.com',
+    0 => '{{ privacybox_domain }}',
   ),
   'datadirectory' => '/media/cloud',
   'overwrite.cli.url' => 'https://example.com',

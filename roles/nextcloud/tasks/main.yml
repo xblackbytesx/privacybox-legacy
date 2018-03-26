@@ -28,5 +28,11 @@
 - name: Change ownership of Nextcloud installation
   file: path=/var/www/nextcloud/ owner=nextcloud group=nextcloud state=directory recurse=yes setype=httpd_sys_content_t
 
+- name: Copy Nextcloud server block (HTTP)
+  template: src=nginx.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
+
+- name: Copy Nextcloud server block (HTTPS)
+  template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
+
 - name: Start php-fpm Service
   service: name=php7.0-fpm state=started enabled=yes

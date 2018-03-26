@@ -10,3 +10,26 @@
 
 - name: Change ownership of Wallabag installation
   file: path=/var/www/wallabag/ owner=wallabag group=wallabag state=directory recurse=yes setype=httpd_sys_content_t
+
+- name: Copy Wallabag server block (HTTP)
+  template: src=nginx.conf dest=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}.conf
+
+- name: Copy Wallabag server block (HTTPS)
+  template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}-ssl.conf
+
+- name: setup nginx symlinks
+  file: path=/etc/nginx/sites-enabled/wallabag.{{ privacybox_domain }}.conf
+        src=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}.conf
+        state=link
+        force=yes
+  notify: restart nginx
+
+- name: setup nginx https symlinks
+  file: path=/etc/nginx/sites-enabled/wallabag.{{ privacybox_domain }}-ssl.conf
+        src=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}-ssl.conf
+        state=link
+        force=yes
+  notify: restart nginx
+
+- name: Start php-fpm Service
+  service: name=php7.0-fpm state=started enabled=yes

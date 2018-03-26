@@ -10,3 +10,12 @@
 
 - name: Change ownership of Ampache installation
   file: path=/var/www/ampache/ owner=ampache group=ampache state=directory recurse=yes setype=httpd_sys_content_t
+
+- name: Copy Ampache server block (HTTP)
+  template: src=nginx.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain }}.conf
+
+- name: Copy Ampache server block (HTTPS)
+  template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain }}-ssl.conf
+
+- name: Start php-fpm Service
+  service: name=php7.0-fpm state=started enabled=yes
