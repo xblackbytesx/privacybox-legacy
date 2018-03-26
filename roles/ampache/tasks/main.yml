@@ -1,0 +1,12 @@
+---
+- name: Clone Ampache from Github
+  git: repo=https://github.com/ampache/ampache.git dest=/var/www/ampache
+
+- name: Add group "ampache"
+  group: name=ampache
+
+- name: Add user "ampache"
+  user: name=ampache group=ampache home=/var/www/ampache/
+
+- name: Change ownership of Ampache installation
+  file: path=/var/www/ampache/ owner=ampache group=ampache state=directory recurse=yes setype=httpd_sys_content_t
