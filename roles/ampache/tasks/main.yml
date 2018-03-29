@@ -17,5 +17,19 @@
 - name: Copy Ampache server block (HTTPS)
   template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain }}-ssl.conf
 
+- name: setup nginx symlinks
+  file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}.conf
+        src=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
+        state=link
+        force=yes
+  notify: restart nginx
+
+- name: setup nginx https symlinks
+  file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}-ssl.conf
+        src=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
+        state=link
+        force=yes
+  notify: restart nginx
+
 - name: Start php-fpm Service
   service: name=php7.0-fpm state=started enabled=yes

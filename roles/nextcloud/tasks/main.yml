@@ -28,25 +28,25 @@
 - name: Change ownership of Nextcloud installation
   file: path=/var/www/nextcloud/ owner=nextcloud group=nextcloud state=directory recurse=yes setype=httpd_sys_content_t
 
-
-- name: Creates directory
-  file:
-    path: /etc/nginx/ssl/{{ privacybox_domain }}
-    state: directory
-    owner: www-data
-    group: www-data
-    mode: 0775
-    recurse: yes
-
-- name: create self-signed SSL cert
-  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ privacybox_domain }}" -days 3650 -keyout /etc/nginx/ssl/{{ privacybox_domain }}/server.key -out /etc/nginx/ssl/{{ privacybox_domain }}/server.crt -extensions v3_ca creates=/etc/nginx/ssl/{{ privacybox_domain }}/server.crt
-
-
 - name: Copy Nextcloud server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
 
 - name: Copy Nextcloud server block (HTTPS)
   template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
+
+- name: setup nginx symlinks
+  file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}.conf
+        src=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
+        state=link
+        force=yes
+  notify: restart nginx
+
+- name: setup nginx https symlinks
+  file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}-ssl.conf
+        src=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
+        state=link
+        force=yes
+  notify: restart nginx
 
 - name: Start php-fpm Service
   service: name=php7.0-fpm state=started enabled=yes
