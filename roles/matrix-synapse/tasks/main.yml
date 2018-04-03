@@ -1,0 +1,8 @@
+---
+- name: Install Matrix Synapse package
+  apt: name={{ item }} state=present
+  with_items:
+   - matrix-synapse
+
+# deb https://matrix.org/packages/debian/ stretch main
+# deb-src https://matrix.org/packages/debian/ stretch main
