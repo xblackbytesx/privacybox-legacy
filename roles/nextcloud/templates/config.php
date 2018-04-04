@@ -8,7 +8,7 @@ $CONFIG = array (
     0 => '{{ privacybox_domain }}',
   ),
   'datadirectory' => '/media/cloud',
-  'overwrite.cli.url' => 'https://example.com',
+  'overwrite.cli.url' => 'https://{{ privacybox_domain }}',
   'dbtype' => 'mysql',
   'version' => '13.0.1.1',
   'dbname' => '{{ nc_db_name }}',
