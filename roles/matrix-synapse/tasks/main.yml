@@ -1,8 +1,32 @@
 ---
-- name: Install Matrix Synapse package
+- name: Installing prerequisites
   apt: name={{ item }} state=present
   with_items:
-   - matrix-synapse
+    - build-essential
+    - python2.7-dev
+    - libffi-dev
+    - python-pip
+    - python-setuptools
+    - sqlite3
+    - libssl-dev
+    - python-virtualenv
+    - libjpeg-dev
+    - libxslt1-dev
 
-# deb https://matrix.org/packages/debian/ stretch main
-# deb-src https://matrix.org/packages/debian/ stretch main
+- name: Add an Apt signing key
+  apt_key:
+    url: https://matrix.org/packages/debian/repo-key.asc
+    state: present
+
+- lineinfile:
+    path: /etc/apt/sources.list
+    line: 'deb https://matrix.org/packages/debian/ stretch main'
+
+- lineinfile:
+    path: /etc/apt/sources.list
+    line: 'deb-src https://matrix.org/packages/debian/ stretch main'
+
+- name: Install Matrix Synapse package
+  apt: name={{ item }} update_cache=yes state=present
+  with_items:
+   - matrix-synapse
