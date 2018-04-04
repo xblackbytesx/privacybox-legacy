@@ -2,6 +2,11 @@
 - name: Clone Ampache from Github
   git: repo=https://github.com/ampache/ampache.git dest=/var/www/ampache
 
+- composer:
+    command: install
+    arguments: --prefer-source --no-interaction
+    working_dir: /var/www/ampache
+
 - name: Add group "ampache"
   group: name=ampache
 
