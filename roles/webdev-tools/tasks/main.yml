@@ -1,0 +1,14 @@
+---
+- name: Add Yarn signing key
+  apt_key:
+    url: https://dl.yarnpkg.com/debian/pubkey.gpg
+    state: present
+
+- lineinfile:
+    path: /etc/apt/sources.list
+    line: 'deb https://dl.yarnpkg.com/debian/ stable main'
+
+- name: Install Yarn package
+  apt: name={{ item }} update_cache=yes state=present
+  with_items:
+   - yarn
