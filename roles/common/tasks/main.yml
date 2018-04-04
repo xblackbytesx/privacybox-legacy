@@ -1,4 +1,11 @@
 ---
+- name: Enable apt-get HTTPS fetch.
+  apt: name={{ item }} state=present
+  with_items:
+   - apt-transport-https
+   - screen
+   - ufw
+
 - name: Install Python tools
   apt: name={{ item }} state=present
   with_items:
@@ -8,10 +15,8 @@
 - name: Install some basic packages
   apt: name={{ item }} state=present
   with_items:
-   - ufw
    - vim
    - git
-   - screen
 
 - ufw:
     state: enabled

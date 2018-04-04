@@ -1,5 +1,5 @@
 ---
-privacybox_domain: example.com
+privacybox_domain: privacy.box
 
 # Which version of Nextcloud to deploy
 nc_version: 13.0.1

@@ -12,6 +12,12 @@
     port: 80
     proto: tcp
 
+- ufw:
+    state: enabled
+    rule: allow
+    port: 443
+    proto: tcp
+
 - name: Create directory to hold SSL certificates
   file:
     path: /etc/nginx/ssl/{{ privacybox_domain }}
