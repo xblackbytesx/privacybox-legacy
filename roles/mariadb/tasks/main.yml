@@ -20,5 +20,11 @@
     - pip
     - MySQL-python
 
+# Remove anonymous user account for localhost
+- mysql_user:
+    name: ''
+    host: localhost
+    state: absent
+
 - name: Start Mysql Service
   service: name=mysqld state=started enabled=yes

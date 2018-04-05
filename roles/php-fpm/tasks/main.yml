@@ -16,6 +16,8 @@
     - php7.0-sqlite3
     - php7.0-mysql
     - php7.0-curl
+    - php7.0-tidy
+    - php7.0-bcmath
     - composer
 
 # - name: Disable default pool

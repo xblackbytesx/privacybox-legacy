@@ -2,11 +2,23 @@
 - name: Clone Wallabag from Github
   git: repo=https://github.com/wallabag/wallabag.git dest=/var/www/wallabag
 
+- name: Copy Wallabag parameters
+  template: src=parameters.yml dest=/var/www/wallabag/app/config/parameters.yml
+
 - name: Add group "wallabag"
   group: name=wallabag
 
 - name: Add user "wallabag"
   user: name=wallabag group=wallabag home=/var/www/wallabag/
+
+- name: Create Wallabag database
+  mysql_db: name={{ wb_db_name }} state=present
+
+- name: Create Wallabag database user
+  mysql_user: name={{ wb_db_user }} password={{ wb_db_password }} priv={{ wb_db_name }}.*:ALL host='localhost' state=present
+
+- make:
+    chdir: /var/www/wallabag
 
 - name: Change ownership of Wallabag installation
   file: path=/var/www/wallabag/ owner=wallabag group=wallabag state=directory recurse=yes setype=httpd_sys_content_t

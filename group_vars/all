@@ -10,5 +10,10 @@ nc_db_name: nextcloud
 nc_db_user: nextcloud
 nc_db_password: secret
 
+# These are the Wallabag database settings
+wb_db_name: wallabag
+wb_db_user: wallabag
+wb_db_password: secret
+
 # You shouldn't need to change this.
 mysql_port: 3306
