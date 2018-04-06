@@ -71,5 +71,12 @@
     option: opcache.revalidate_freq
     value: 1
 
+- name: Link fpm and cli ini configs
+  file: path=/etc/php/7.0/cli/php.ini
+        src=/etc/php/7.0/fpm/php.ini
+        state=link
+        force=yes
+  notify: restart php-fpm
+
 - name: Copy phpinfo
   template: src=phpinfo.php dest=/var/www/
