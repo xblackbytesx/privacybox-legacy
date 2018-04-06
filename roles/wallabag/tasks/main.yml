@@ -21,7 +21,7 @@
     chdir: /var/www/wallabag
 
 - name: Change ownership of Wallabag installation
-  file: path=/var/www/wallabag/ owner=wallabag group=wallabag state=directory recurse=yes setype=httpd_sys_content_t
+  file: path=/var/www/wallabag/ owner=www-data group=www-data state=directory recurse=yes setype=httpd_sys_content_t
 
 - name: Copy Wallabag server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}.conf

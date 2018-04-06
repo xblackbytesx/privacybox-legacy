@@ -14,7 +14,7 @@
   user: name=ampache group=ampache home=/var/www/ampache/
 
 - name: Change ownership of Ampache installation
-  file: path=/var/www/ampache/ owner=ampache group=ampache state=directory recurse=yes setype=httpd_sys_content_t
+  file: path=/var/www/ampache/ owner=www-data group=www-data state=directory recurse=yes setype=httpd_sys_content_t
 
 - name: Copy Ampache server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain }}.conf

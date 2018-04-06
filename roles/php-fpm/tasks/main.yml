@@ -28,5 +28,48 @@
 #   template: src=nextcloud.conf dest=/etc/php-fpm.d/
 #   notify: restart php-fpm
 
+
+- ini_file:
+    path: /etc/php/7.0/fpm/php.ini
+    section: opcache
+    option: opcache.enable
+    value: 1
+
+- ini_file:
+    path: /etc/php/7.0/fpm/php.ini
+    section: opcache
+    option: opcache.enable_cli
+    value: 1
+
+- ini_file:
+    path: /etc/php/7.0/fpm/php.ini
+    section: opcache
+    option: opcache.interned_strings_buffer
+    value: 8
+
+- ini_file:
+    path: /etc/php/7.0/fpm/php.ini
+    section: opcache
+    option: opcache.max_accelerated_files
+    value: 10000
+
+- ini_file:
+    path: /etc/php/7.0/fpm/php.ini
+    section: opcache
+    option: opcache.memory_consumption
+    value: 128
+
+- ini_file:
+    path: /etc/php/7.0/fpm/php.ini
+    section: opcache
+    option: opcache.save_comments
+    value: 1
+
+- ini_file:
+    path: /etc/php/7.0/fpm/php.ini
+    section: opcache
+    option: opcache.revalidate_freq
+    value: 1
+
 - name: Copy phpinfo
   template: src=phpinfo.php dest=/var/www/
