@@ -94,16 +94,16 @@ bosh_ports = {
     port = 5281;
     path = "http-bind";
     ssl = {
-      certificate = "/etc/prosody/certs/{{ privacybox_domain }}/server.crt";
-      key = "/etc/prosody/certs/{{ privacybox_domain }}/server.key";
+      certificate = "/etc/ssl/private/{{ privacybox_domain }}/server.crt";
+      key = "/etc/ssl/private/{{ privacybox_domain }}/server.key";
     }
 }
 
 -- These are the SSL/TLS-related settings. If you don't want
 -- to use SSL/TLS, you may comment or remove this
 ssl = {
-  certificate = "/etc/prosody/certs/{{ privacybox_domain }}/server.crt";
-	key = "/etc/prosody/certs/{{ privacybox_domain }}/server.key";
+  certificate = "/etc/ssl/private/{{ privacybox_domain }}/server.crt";
+	key = "/etc/ssl/private/{{ privacybox_domain }}/server.key";
 }
 
 -- Force clients to use encrypted connections? This option will
@@ -170,8 +170,8 @@ log = {
 
 VirtualHost "chat.{{ privacybox_domain }}"
 	ssl = {
-		certificate = "/etc/prosody/certs/{{ privacybox_domain }}/server.crt";
-    key = "/etc/prosody/certs/{{ privacybox_domain }}/server.key";
+		certificate = "/etc/ssl/private/{{ privacybox_domain }}/server.crt";
+    key = "/etc/ssl/private/{{ privacybox_domain }}/server.key";
 	}
 
 ------ Components ------

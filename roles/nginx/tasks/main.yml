@@ -18,18 +18,6 @@
     port: 443
     proto: tcp
 
-- name: Create directory to hold SSL certificates
-  file:
-    path: /etc/nginx/ssl/{{ privacybox_domain }}
-    state: directory
-    owner: www-data
-    group: www-data
-    mode: 0775
-    recurse: yes
-
-- name: create self-signed SSL certificate
-  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ privacybox_domain }}" -days 3650 -keyout /etc/nginx/ssl/{{ privacybox_domain }}/server.key -out /etc/nginx/ssl/{{ privacybox_domain }}/server.crt -extensions v3_ca creates=/etc/nginx/ssl/{{ privacybox_domain }}/server.crt
-
 - name: Remove the default html folder
   file:
     state: absent
