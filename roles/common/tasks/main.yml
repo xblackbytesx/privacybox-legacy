@@ -25,3 +25,5 @@
 
 - name: Reload ansible_facts
   setup:
+
+# - local_action: copy content="test" dest=~/.privacybox/credentials

@@ -7,6 +7,11 @@
     arguments: --prefer-source --no-interaction
     working_dir: /var/www/ampache
 
+- name: Install FFMPEG for transcoding
+  apt: name={{ item }} state=present
+  with_items:
+   - ffmpeg
+
 - name: Add group "ampache"
   group: name=ampache
 
