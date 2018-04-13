@@ -78,5 +78,12 @@
         force=yes
   notify: restart php-fpm
 
+- name: Ensure PHP environment variables are available
+  lineinfile:
+    dest: /etc/php/7.0/fpm/pool.d/www.conf
+    regexp: ;env[PATH] = /usr/local/bin:/usr/bin:/bin
+    line: env[PATH] = /usr/local/bin:/usr/bin:/bin
+  notify: restart php-fpm
+
 - name: Copy phpinfo
   template: src=phpinfo.php dest=/var/www/

@@ -23,7 +23,7 @@
   mysql_user: name={{ nc_db_user }} password={{ nc_db_password }} priv={{ nc_db_name }}.*:ALL host='localhost' state=present
 
 - name: Copy Nextcloud config file
-  template: src=config.php dest=/var/www/nextcloud/
+  template: src=config.php dest=/var/www/nextcloud/config/privacybox-example.php
 
 - name: Change ownership of Nextcloud installation
   file: path=/var/www/nextcloud/ owner=www-data group=www-data state=directory recurse=yes setype=httpd_sys_content_t
