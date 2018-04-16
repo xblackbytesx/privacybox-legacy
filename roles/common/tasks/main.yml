@@ -39,3 +39,24 @@
   setup:
 
 # - local_action: copy content="test" dest=~/.privacybox/credentials
+
+- name: Check if ZSH is present.
+  apt: name={{ item }} state=present
+  with_items:
+   - zsh
+
+- name: Clone Antigen from Github
+  git: repo=https://github.com/zsh-users/antigen.git dest=~/zsh-config
+
+- name: Clone Antigen from Github
+  git: repo=https://github.com/creationix/nvm.git dest=~/.nvm
+
+- name: setup nginx symlinks
+  file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}.conf
+        src=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
+        state=link
+        force=yes
+
+# ln -s ~/zsh-config/.zshrc ~/
+# ln -s ~/zsh-config/.aliases ~/
+# ln -s ~/zsh-config/.yaourtrc ~/
