@@ -3,6 +3,7 @@
   hosts: all
   remote_user: fabio
   become: yes
+  become_method: 'sudo'
 
   roles:
     - common

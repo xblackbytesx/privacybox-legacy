@@ -3,6 +3,8 @@
   git: repo=https://github.com/ampache/ampache.git dest=/var/www/ampache
 
 - composer:
+    become: yes
+    become_user: www-data
     command: install
     arguments: --prefer-source --no-interaction
     working_dir: /var/www/ampache
