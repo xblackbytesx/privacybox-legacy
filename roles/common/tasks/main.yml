@@ -45,13 +45,13 @@
   with_items:
    - zsh
 
-# - name: Clone Antigen from Github
-#   git: repo=https://github.com/zsh-users/antigen.git dest=~/zsh-config
-#
-# - name: Clone Antigen from Github
-#   git: repo=https://github.com/creationix/nvm.git dest=~/.nvm
-#
-# - name: setup nginx symlinks
+- name: Clone Antigen from Github
+  git: repo=https://github.com/zsh-users/antigen.git dest=~/zsh-config
+
+- name: Clone NVM from Github
+  git: repo=https://github.com/creationix/nvm.git dest=~/.nvm
+
+# - name: setup zshrc symlinks
 #   file: path=~/zsh-cofig/.zshrc
 #         src=~/zsh-config/.zshrc
 #         state=link
