@@ -10,6 +10,7 @@
     - mariadb
     - nginx
     - php-fpm
+    - redis
     - nextcloud
     - wallabag
     - ampache

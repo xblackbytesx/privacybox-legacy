@@ -17,6 +17,7 @@
   with_items:
    - vim
    - git
+   - curl
 
 - ufw:
     state: enabled

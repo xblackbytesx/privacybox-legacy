@@ -25,3 +25,6 @@
 
 - name: Copy privacybox welcome page
   template: src=index.html dest=/var/www/
+
+- name: Set proper ownership of webroot
+  file: path=/var/www owner=www-data group=www-data state=directory recurse=yes setype=httpd_sys_content_t

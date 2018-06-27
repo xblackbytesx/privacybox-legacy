@@ -6,4 +6,4 @@
 
 - name: Copy Prosody config
   template: src=config.lua dest=/etc/prosody/prosody.cfg.lua
-  nofiy: restart prosody
+  notify: restart prosody

@@ -2,12 +2,15 @@
 - name: Clone Ampache from Github
   git: repo=https://github.com/ampache/ampache.git dest=/var/www/ampache
 
+- name: Set proper ownership of ampache folder
+  file: path=/var/www/ampache owner=www-data group=www-data state=directory recurse=yes setype=httpd_sys_content_t
+
 - composer:
-    become: yes
-    become_user: www-data
     command: install
     arguments: --prefer-source --no-interaction
     working_dir: /var/www/ampache
+  become: yes
+  become_user: www-data
 
 - name: Install FFMPEG for transcoding
   apt: name={{ item }} state=present
