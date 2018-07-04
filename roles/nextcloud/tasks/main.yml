@@ -26,7 +26,16 @@
   template: src=config.php dest=/var/www/nextcloud/config/privacybox-example.php
 
 - name: Change ownership of Nextcloud installation
-  file: path=/var/www/nextcloud/ owner=www-data group=www-data state=directory recurse=yes setype=httpd_sys_content_t
+  file:
+    path: /var/www/nextcloud
+    mode: 775
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: yes
+    setype: httpd_sys_content_t
+  notify:
+  - reload nginx
 
 - name: Copy Nextcloud server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
