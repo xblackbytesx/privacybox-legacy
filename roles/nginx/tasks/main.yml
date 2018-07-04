@@ -4,7 +4,7 @@
 
 - name: Copy nginx configuration for Nextcloud
   template: src=default.conf dest=/etc/nginx/sites-available/default
-  notify: restart nginx
+  notify: reload nginx
 
 - ufw:
     state: enabled
@@ -23,8 +23,24 @@
     state: absent
     path: /var/www/html
 
+- name: Create Web Root
+ file:
+  path: '{{ docroot }}'
+  state: directory
+  owner: www-data
+  group: www-data
+
 - name: Copy privacybox welcome page
   template: src=index.html dest=/var/www/
 
 - name: Set proper ownership of webroot
-  file: path=/var/www owner=www-data group=www-data state=directory recurse=yes setype=httpd_sys_content_t
+ file:
+  path: '{{ docroot }}'
+  mode: 775
+  state: directory
+  owner: www-data
+  group: www-data
+  recurse: yes
+  setype: httpd_sys_content_t
+ notify:
+  - reload nginx
