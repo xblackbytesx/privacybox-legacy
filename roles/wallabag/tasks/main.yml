@@ -1,4 +1,9 @@
 ---
+- name: Make sure Wallabag path does not yet exist
+  file:
+    state: absent
+    path: /var/www/wallabag
+
 - name: Clone Wallabag from Github
   git: repo=https://github.com/wallabag/wallabag.git dest=/var/www/wallabag
 

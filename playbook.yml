@@ -1,5 +1,5 @@
 ---
-- name: Install MariaDB, Nginx, and PHP-FPM
+- name: Install MariaDB, Nginx, PHP-FPM and Redis
   hosts: all
   remote_user: fabio
   become: yes
@@ -13,7 +13,6 @@
     - redis
     - nextcloud
     - wallabag
-    - ampache
     - irssi
     - prosody
     - matrix-synapse

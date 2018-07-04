@@ -1,4 +1,9 @@
 ---
+- name: Make sure Ampache path does not yet exist
+  file:
+    state: absent
+    path: /var/www/ampache
+
 - name: Clone Ampache from Github
   git: repo=https://github.com/ampache/ampache.git dest=/var/www/ampache
 
@@ -8,7 +13,7 @@
 - composer:
     command: install
     arguments: --prefer-source --no-interaction
-    working_dir: /var/www/ampache
+    working_dir: '/var/www/ampache'
   become: yes
   become_user: www-data
 
