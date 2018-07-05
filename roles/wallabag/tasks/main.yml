@@ -6,6 +6,8 @@
 
 - name: Clone Wallabag from Github
   git: repo=https://github.com/wallabag/wallabag.git dest=/var/www/wallabag
+  notify:
+  - fix webroot permissions
 
 - name: Copy Wallabag parameters
   template: src=parameters.yml dest=/var/www/wallabag/app/config/parameters.yml
@@ -24,9 +26,6 @@
 
 - make:
     chdir: /var/www/wallabag
-
-- name: Change ownership of Wallabag installation
-  file: path=/var/www/wallabag/ owner=www-data group=www-data state=directory recurse=yes setype=httpd_sys_content_t
 
 - name: Copy Wallabag server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}.conf

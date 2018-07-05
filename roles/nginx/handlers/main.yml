@@ -4,3 +4,14 @@
 
 - name: restart nginx
   service: name=nginx state=restarted enabled=yes
+
+- name: fix webroot permissions
+  file:
+    path: /var/www
+    mode: 0755
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: yes
+  notify:
+  - reload nginx

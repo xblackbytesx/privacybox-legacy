@@ -6,9 +6,8 @@
 
 - name: Clone Ampache from Github
   git: repo=https://github.com/ampache/ampache.git dest=/var/www/ampache
-
-- name: Set proper ownership of ampache folder
-  file: path=/var/www/ampache owner=www-data group=www-data state=directory recurse=yes setype=httpd_sys_content_t
+  notify:
+  - fix webroot permissions
 
 - composer:
     command: install
@@ -28,9 +27,6 @@
 - name: Add user "ampache"
   user: name=ampache group=ampache home=/var/www/ampache/
 
-- name: Change ownership of Ampache installation
-  file: path=/var/www/ampache/ owner=www-data group=www-data state=directory recurse=yes setype=httpd_sys_content_t
-
 - name: Copy Ampache server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain }}.conf
 
@@ -42,14 +38,14 @@
         src=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
         state=link
         force=yes
-  notify: restart nginx
+  notify: reload nginx
 
 - name: setup nginx https symlinks
   file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}-ssl.conf
         src=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
         state=link
         force=yes
-  notify: restart nginx
+  notify: reload nginx
 
 - name: Start php-fpm Service
   service: name=php7.0-fpm state=started enabled=yes

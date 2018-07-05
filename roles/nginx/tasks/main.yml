@@ -32,15 +32,6 @@
 
 - name: Copy privacybox welcome page
   template: src=index.html dest=/var/www/
-
-- name: Set proper ownership of webroot
-  file:
-    path: '{{ docroot }}'
-    mode: 775
-    state: directory
-    owner: www-data
-    group: www-data
-    recurse: yes
-    setype: httpd_sys_content_t
   notify:
+  - fix webroot permissions
   - reload nginx
