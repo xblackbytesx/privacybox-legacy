@@ -1,0 +1,52 @@
+---
+- name: Download PHPMyAdmin
+  get_url: url=https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.zip
+           dest=/var/www/phpmyadmin.zip
+           sha256sum="e874dbcf01bffbcbd45cf015e73c6fafb5b76ce6ba9b197215448851542d8ed7"
+
+- name: Extract archive
+  command: chdir=/var/www/ /bin/tar xvf phpmyadmin.zip creates=/var/www/phpmyadmin
+
+- name: Remove the extracted archive
+  file: path=/var/www/phpmyadmin.zip state=absent
+
+- name: Add group "phpmyadmin"
+  group: name=phpmyadmin
+
+- name: Add user "phpmyadmin"
+  user: name=phpmyadmin group=phpmyadmin home=/var/www/phpmyadmin/
+
+- name: Create phpmyadmin database
+  mysql_db: name={{ nc_db_name }} state=present
+
+- name: Create phpmyadmin database user
+  mysql_user: name={{ nc_db_user }} password={{ nc_db_password }} priv={{ nc_db_name }}.*:ALL host='localhost' state=present
+
+- name: Copy phpmyadmin config file
+  template: src=config.php dest=/var/www/phpmyadmin/config/privacybox-example.php
+  notify:
+  - fix webroot permissions
+  - reload nginx
+
+- name: Copy phpmyadmin server block (HTTP)
+  template: src=nginx.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
+
+- name: Copy phpmyadmin server block (HTTPS)
+  template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
+
+- name: setup nginx http symlinks
+  file: path=/etc/nginx/sites-enabled/phpmyadmin.{{ privacybox_domain }}.conf
+        src=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain }}.conf
+        state=link
+        force=yes
+  notify: reload nginx
+
+- name: setup nginx https symlinks
+  file: path=/etc/nginx/sites-enabled/phpmyadmin.{{ privacybox_domain }}-ssl.conf
+        src=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain }}-ssl.conf
+        state=link
+        force=yes
+  notify: reload nginx
+
+- name: Start php-fpm Service
+  service: name=php7.0-fpm state=started enabled=yes
