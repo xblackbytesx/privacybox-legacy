@@ -11,6 +11,7 @@
     - nginx
     - php-fpm
     - redis
+    - phpmyadmin
     - nextcloud
     - wallabag
     - irssi
