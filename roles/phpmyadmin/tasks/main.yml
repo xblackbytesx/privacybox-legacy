@@ -4,18 +4,21 @@
            dest=/var/www/phpmyadmin-latest.tar.gz
            sha256sum="12a2462116fa8e32866c04f48678ef077520a108f3350bcee701d0e39b865a89"
 
-- name: Create PhpMyAdmin dir
-  file:
-    path: /var/www/phpmyadmin
-    state: directory
-    owner: www-data
-    group: www-data
+# - name: Create PhpMyAdmin dir
+#   file:
+#     path: /var/www/phpmyadmin
+#     state: directory
+#     owner: www-data
+#     group: www-data
 
 - name: Unpack the downloadded archive
   unarchive:
     src: /var/www/phpmyadmin-latest.tar.gz
-    dest: /var/www/phpmyadmin
+    dest: /var/www
     remote_src: yes
+
+- name: Rename the extracted folder
+  command: mv /var/www/phpMyAdmin-4.8.2-all-languages /var/www/phpmyadmin
 
 - name: Remove the extracted archive
   file: path=/var/www/phpmyadmin-latest.tar.gz state=absent
