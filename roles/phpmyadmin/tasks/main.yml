@@ -1,14 +1,24 @@
 ---
 - name: Download PHPMyAdmin
   get_url: url=https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.tar.gz
-           dest=/var/www/phpmyadmin.tar.gz
+           dest=/var/www/phpmyadmin-latest.tar.gz
            sha256sum="12a2462116fa8e32866c04f48678ef077520a108f3350bcee701d0e39b865a89"
 
-- name: Extract archive
-  command: chdir=/var/www/ /bin/tar xvf phpmyadmin.tar.gz creates=/var/www/phpmyadmin
+- name: Create PhpMyAdmin dir
+  file:
+    path: /var/www/phpmyadmin
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: Unpack the downloadded archive
+  unarchive:
+    src: /var/www/phpmyadmin-latest.tar.gz
+    dest: /var/www/phpmyadmin
+    remote_src: yes
 
 - name: Remove the extracted archive
-  file: path=/var/www/phpmyadmin.zip state=absent
+  file: path=/var/www/phpmyadmin-latest.tar.gz state=absent
   notify:
   - fix webroot permissions
   - reload nginx
@@ -20,10 +30,10 @@
   user: name=phpmyadmin group=phpmyadmin home=/var/www/phpmyadmin/
 
 - name: Copy phpmyadmin server block (HTTP)
-  template: src=nginx.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
+  template: src=nginx.conf dest=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain }}.conf
 
 - name: Copy phpmyadmin server block (HTTPS)
-  template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
+  template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain }}-ssl.conf
 
 - name: setup nginx http symlinks
   file: path=/etc/nginx/sites-enabled/phpmyadmin.{{ privacybox_domain }}.conf
