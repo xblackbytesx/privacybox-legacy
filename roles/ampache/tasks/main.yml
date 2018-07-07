@@ -9,6 +9,11 @@
   notify:
   - fix webroot permissions
 
+- name: Creates directory
+  file: path=/var/www/ampache/lib/vendor state=directory
+  notify:
+  - fix webroot permissions
+
 - composer:
     command: install
     arguments: --prefer-source --no-interaction

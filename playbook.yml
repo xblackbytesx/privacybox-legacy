@@ -3,7 +3,7 @@
   hosts: all
   remote_user: fabio
   become: yes
-  become_method: 'sudo'
+  become_method: sudo
 
   roles:
     - common
@@ -14,6 +14,7 @@
     - phpmyadmin
     - nextcloud
     - wallabag
+    - ampache
     - irssi
     - prosody
     - matrix-synapse
