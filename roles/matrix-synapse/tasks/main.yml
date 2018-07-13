@@ -12,36 +12,44 @@
     - python-virtualenv
     - libjpeg-dev
     - libxslt1-dev
+  become: yes
 
 - name: Add an Apt signing key
   apt_key:
     url: https://matrix.org/packages/debian/repo-key.asc
     state: present
+  become: yes
 
 - lineinfile:
     path: /etc/apt/sources.list
     line: 'deb https://matrix.org/packages/debian/ stretch main'
+  become: yes
 
 - lineinfile:
     path: /etc/apt/sources.list
     line: 'deb-src https://matrix.org/packages/debian/ stretch main'
+  become: yes
 
 - name: Install Matrix Synapse package
   apt: name={{ item }} update_cache=yes state=present
   with_items:
    - matrix-synapse
+  become: yes
 
 - name: Copy Nextcloud server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/matrix.{{ privacybox_domain }}.conf
+  become: yes
 
 - name: Copy Nextcloud server block (HTTPS)
   template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/matrix.{{ privacybox_domain }}-ssl.conf
+  become: yes
 
 - name: setup nginx symlinks
   file: path=/etc/nginx/sites-enabled/matrix.{{ privacybox_domain }}.conf
         src=/etc/nginx/sites-available/matrix.{{ privacybox_domain }}.conf
         state=link
         force=yes
+  become: yes
   notify: restart nginx
 
 - name: setup nginx https symlinks
@@ -49,4 +57,5 @@
         src=/etc/nginx/sites-available/matrix.{{ privacybox_domain }}-ssl.conf
         state=link
         force=yes
+  become: yes
   notify: restart nginx

@@ -1,9 +1,11 @@
 ---
 - name: Install nginx
   apt: name=nginx state=present
+  become: yes
 
-- name: Copy nginx configuration for Nextcloud
+- name: Copy default Nginx configuration
   template: src=default.conf dest=/etc/nginx/sites-available/default
+  become: yes
   notify: reload nginx
 
 - ufw:
@@ -11,17 +13,21 @@
     rule: allow
     port: 80
     proto: tcp
+  become: yes
 
 - ufw:
     state: enabled
     rule: allow
     port: 443
     proto: tcp
+  become: yes
 
 - name: Remove the default html folder
   file:
     path: /var/www/html
     state: absent
+    recurse: yes
+  become: yes
 
 - name: Create Web Root
   file:
@@ -29,9 +35,12 @@
     state: directory
     owner: www-data
     group: www-data
+  become: yes
 
 - name: Copy privacybox welcome page
   template: src=index.html dest=/var/www/
+  become: yes
+  become_user: www-data
   notify:
   - fix webroot permissions
   - reload nginx
