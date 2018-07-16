@@ -8,22 +8,28 @@
 - name: Clone Ampache from Github
   git: repo=https://github.com/ampache/ampache.git dest=/var/www/ampache
   become: yes
-  become_user: www-data
   notify:
   - fix webroot permissions
 
-- name: Creates directory
-  file: path=/var/www/ampache/lib/vendor state=directory
-  become: yes
-  notify:
-  - fix webroot permissions
+# - composer:
+#     command: install
+#     arguments: --prefer-source --no-interaction
+#     working_dir: '/var/www/ampache'
+#   become: yes
+#   become_user: www-data
 
-- composer:
-    command: install
-    arguments: --prefer-source --no-interaction
-    working_dir: '/var/www/ampache'
+- name: fix webroot permissions
+  file:
+    path: /var/www
+    mode: 0755
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: yes
   become: yes
-  become_user: www-data
+
+- name: Composer stuff
+  command: chdir=/var/www/ampache sudo -u www-data composer install --prefer-source --no-interaction
 
 - name: Install FFMPEG for transcoding
   apt: name={{ item }} state=present
@@ -48,16 +54,16 @@
   become: yes
 
 - name: setup nginx symlinks
-  file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}.conf
-        src=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
+  file: path=/etc/nginx/sites-enabled/music.{{ privacybox_domain }}.conf
+        src=/etc/nginx/sites-available/music.{{ privacybox_domain }}.conf
         state=link
         force=yes
   become: yes
   notify: reload nginx
 
 - name: setup nginx https symlinks
-  file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}-ssl.conf
-        src=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
+  file: path=/etc/nginx/sites-enabled/music.{{ privacybox_domain }}-ssl.conf
+        src=/etc/nginx/sites-available/music.{{ privacybox_domain }}-ssl.conf
         state=link
         force=yes
   become: yes

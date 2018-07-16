@@ -28,6 +28,7 @@
     name: ''
     host: localhost
     state: absent
+  become: yes
 
 - name: Start Mysql Service
   service: name=mysqld state=started enabled=yes

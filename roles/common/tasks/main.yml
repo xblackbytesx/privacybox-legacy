@@ -1,4 +1,12 @@
 ---
+# - name: Add the user '{{ machine_user }}' with a bash shell, appending the group 'admins' to the user's groups
+#   user:
+#     name: {{ machine_user }}
+#     password: {{ machine_pass }}
+#     shell: /bin/bash
+#     groups: admins
+#     append: yes
+
 - name: Enable apt-get HTTPS fetch.
   apt: name={{ item }} state=present
   with_items:

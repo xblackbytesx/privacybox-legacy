@@ -26,7 +26,6 @@
   file:
     path: /var/www/html
     state: absent
-    recurse: yes
   become: yes
 
 - name: Create Web Root
@@ -40,7 +39,6 @@
 - name: Copy privacybox welcome page
   template: src=index.html dest=/var/www/
   become: yes
-  become_user: www-data
   notify:
   - fix webroot permissions
   - reload nginx

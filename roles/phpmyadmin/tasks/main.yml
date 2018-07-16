@@ -3,11 +3,13 @@
   file:
     state: absent
     path: /var/www/phpmyadmin
+  become: yes
 
 - name: Download PHPMyAdmin
   get_url: url=https://files.phpmyadmin.net/phpMyAdmin/{{ phpmyadmin_version }}/phpMyAdmin-{{ phpmyadmin_version }}-all-languages.tar.gz
            dest=/var/www/phpmyadmin-latest.tar.gz
            sha256sum="12a2462116fa8e32866c04f48678ef077520a108f3350bcee701d0e39b865a89"
+  become: yes
 
 # - name: Create PhpMyAdmin dir
 #   file:
@@ -21,33 +23,41 @@
     src: /var/www/phpmyadmin-latest.tar.gz
     dest: /var/www
     remote_src: yes
+  become: yes
 
 - name: Rename the extracted folder
   command: mv /var/www/phpMyAdmin-{{ phpmyadmin_version }}-all-languages /var/www/phpmyadmin
+  become: yes
 
 - name: Remove the extracted archive
   file: path=/var/www/phpmyadmin-latest.tar.gz state=absent
+  become: yes
   notify:
   - fix webroot permissions
   - reload nginx
 
 - name: Add group "phpmyadmin"
   group: name=phpmyadmin
+  become: yes
 
 - name: Add user "phpmyadmin"
   user: name=phpmyadmin group=phpmyadmin home=/var/www/phpmyadmin/
+  become: yes
 
 - name: Copy phpmyadmin server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain }}.conf
+  become: yes
 
 - name: Copy phpmyadmin server block (HTTPS)
   template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain }}-ssl.conf
+  become: yes
 
 - name: setup nginx http symlinks
   file: path=/etc/nginx/sites-enabled/phpmyadmin.{{ privacybox_domain }}.conf
         src=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain }}.conf
         state=link
         force=yes
+  become: yes
   notify: reload nginx
 
 - name: setup nginx https symlinks
@@ -55,7 +65,9 @@
         src=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain }}-ssl.conf
         state=link
         force=yes
+  become: yes
   notify: reload nginx
 
 - name: Start php-fpm Service
   service: name=php7.0-fpm state=started enabled=yes
+  become: yes
