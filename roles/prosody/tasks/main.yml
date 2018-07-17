@@ -3,9 +3,7 @@
   apt: name={{ item }} state=present
   with_items:
    - prosody
-  become: yes
 
 - name: Copy Prosody config
   template: src=config.lua dest=/etc/prosody/prosody.cfg.lua
-  become: yes
   notify: restart prosody

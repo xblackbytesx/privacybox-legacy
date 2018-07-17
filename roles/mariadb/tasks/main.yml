@@ -5,11 +5,9 @@
    - mariadb-server
    - libmariadbclient-dev
    - mariadb-client
-  become: yes
 
 - name: Create MariaDB configuration file
   template: src=my.cnf.j2 dest=/etc/my.cnf
-  become: yes
   notify:
   - restart mysql
 
@@ -21,15 +19,12 @@
   with_items:
     - pip
     - MySQL-python
-  become: yes
 
 # Remove anonymous user account for localhost
 - mysql_user:
     name: ''
     host: localhost
     state: absent
-  become: yes
 
 - name: Start Mysql Service
   service: name=mysqld state=started enabled=yes
-  become: yes

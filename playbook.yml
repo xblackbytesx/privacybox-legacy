@@ -2,6 +2,7 @@
 - name: Install MariaDB, Nginx, PHP-FPM and Redis
   hosts: all
   remote_user: fabio
+  become: yes
   become_method: sudo
 
   roles:

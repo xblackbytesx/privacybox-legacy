@@ -3,15 +3,12 @@
   apt_key:
     url: https://dl.yarnpkg.com/debian/pubkey.gpg
     state: present
-  become: yes
 
 - lineinfile:
     path: /etc/apt/sources.list
     line: 'deb https://dl.yarnpkg.com/debian/ stable main'
-  become: yes
 
 - name: Install Yarn package
   apt: name={{ item }} update_cache=yes state=present
   with_items:
    - yarn
-  become: yes

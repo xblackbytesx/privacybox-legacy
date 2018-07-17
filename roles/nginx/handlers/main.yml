@@ -1,11 +1,9 @@
 ---
 - name: reload nginx
   service: name=nginx state=reloaded enabled=yes
-  become: yes
 
 - name: restart nginx
   service: name=nginx state=restarted enabled=yes
-  become: yes
 
 - name: fix webroot permissions
   file:
@@ -15,6 +13,5 @@
     owner: www-data
     group: www-data
     recurse: yes
-  become: yes
   notify:
   - reload nginx

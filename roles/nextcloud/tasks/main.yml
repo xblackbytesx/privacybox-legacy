@@ -3,53 +3,42 @@
   get_url: url=https://download.nextcloud.com/server/releases/nextcloud-{{ nc_version }}.tar.bz2
            dest=/var/www/nextcloud-{{ nc_version }}.tar.bz2
            sha256sum="{{ nc_sha256sum }}"
-  become: yes
 
 - name: Extract archive
   command: chdir=/var/www/ /bin/tar xvf nextcloud-{{ nc_version }}.tar.bz2 creates=/var/www/nextcloud
-  become: yes
 
 - name: Remove the extracted archive
   file: path=/var/www/nextcloud-{{ nc_version }}.tar.bz2 state=absent
-  become: yes
 
 - name: Add group "nextcloud"
   group: name=nextcloud
-  become: yes
 
 - name: Add user "nextcloud"
   user: name=nextcloud group=nextcloud home=/var/www/nextcloud/
-  become: yes
 
 - name: Create Nextcloud database
   mysql_db: name={{ nc_db_name }} state=present
-  become: yes
 
 - name: Create Nextcloud database user
   mysql_user: name={{ nc_db_user }} password={{ nc_db_password }} priv={{ nc_db_name }}.*:ALL host='localhost' state=present
-  become: yes
 
 - name: Copy Nextcloud config file
   template: src=config.php dest=/var/www/nextcloud/config/privacybox-example.php
-  become: yes
   notify:
   - fix webroot permissions
   - reload nginx
 
 - name: Copy Nextcloud server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
-  become: yes
 
 - name: Copy Nextcloud server block (HTTPS)
   template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
-  become: yes
 
 - name: setup nginx http symlinks
   file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}.conf
         src=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
         state=link
         force=yes
-  become: yes
   notify: reload nginx
 
 - name: setup nginx https symlinks
@@ -57,9 +46,7 @@
         src=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
         state=link
         force=yes
-  become: yes
   notify: reload nginx
 
 - name: Start php-fpm Service
   service: name=php7.0-fpm state=started enabled=yes
-  become: yes

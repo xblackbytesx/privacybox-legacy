@@ -1,4 +1,3 @@
 ---
 - name: upgrade ampache
   service: name=nginx state=restarted enabled=yes
-  become: yes

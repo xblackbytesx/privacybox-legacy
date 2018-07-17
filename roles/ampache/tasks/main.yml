@@ -3,11 +3,10 @@
   file:
     state: absent
     path: /var/www/ampache
-  become: yes
 
 - name: Clone Ampache from Github
   git: repo=https://github.com/ampache/ampache.git dest=/var/www/ampache
-  become: yes
+
   notify:
   - fix webroot permissions
 
@@ -15,7 +14,7 @@
 #     command: install
 #     arguments: --prefer-source --no-interaction
 #     working_dir: '/var/www/ampache'
-#   become: yes
+#
 #   become_user: www-data
 
 - name: fix webroot permissions
@@ -26,7 +25,6 @@
     owner: www-data
     group: www-data
     recurse: yes
-  become: yes
 
 - name: Composer stuff
   command: chdir=/var/www/ampache sudo -u www-data composer install --prefer-source --no-interaction
@@ -35,30 +33,24 @@
   apt: name={{ item }} state=present
   with_items:
    - ffmpeg
-  become: yes
 
 - name: Add group "ampache"
   group: name=ampache
-  become: yes
 
 - name: Add user "ampache"
   user: name=ampache group=ampache home=/var/www/ampache/
-  become: yes
 
 - name: Copy Ampache server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain }}.conf
-  become: yes
 
 - name: Copy Ampache server block (HTTPS)
   template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain }}-ssl.conf
-  become: yes
 
 - name: setup nginx symlinks
   file: path=/etc/nginx/sites-enabled/music.{{ privacybox_domain }}.conf
         src=/etc/nginx/sites-available/music.{{ privacybox_domain }}.conf
         state=link
         force=yes
-  become: yes
   notify: reload nginx
 
 - name: setup nginx https symlinks
@@ -66,9 +58,7 @@
         src=/etc/nginx/sites-available/music.{{ privacybox_domain }}-ssl.conf
         state=link
         force=yes
-  become: yes
   notify: reload nginx
 
 - name: Start php-fpm Service
   service: name=php7.0-fpm state=started enabled=yes
-  become: yes
