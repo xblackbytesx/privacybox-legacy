@@ -6,7 +6,7 @@ machine_pass: secret
 
 # Which version of Nextcloud to deploy
 nc_version: 14.0.3
-nc_sha256sum: 5743314a71e972ae46a14b36b37394d4545915aa5f32d9e12ba786d04c1f1d11
+nc_sha256sum: d7d0271238396ef53ed3806b8f5a3746170d4ebcaa030ad39735e886e7aed3ef
 
 # These are the Nextcloud database settings
 nc_db_name: nextcloud
