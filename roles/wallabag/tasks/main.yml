@@ -24,8 +24,8 @@
 - name: Create Wallabag database user
   mysql_user: name={{ wb_db_user }} password={{ wb_db_password }} priv={{ wb_db_name }}.*:ALL host='localhost' state=present
 
-- make:
-    chdir: /var/www/wallabag
+- name: Composer install dependencies
+  command: chdir=/var/www/wallabag sudo -u www-data make
 
 - name: Copy Wallabag server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}.conf
