@@ -24,6 +24,14 @@
 - name: Create Wallabag database user
   mysql_user: name={{ wb_db_user }} password={{ wb_db_password }} priv={{ wb_db_name }}.*:ALL host='localhost' state=present
 
+- name: fix webroot permissions
+  file:
+    path: /var/www
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: yes
+
 - name: Composer install dependencies
   command: chdir=/var/www/wallabag sudo -u www-data make
 

@@ -8,24 +8,27 @@
 #     append: yes
 
 - name: Enable apt-get HTTPS fetch.
-  apt: name={{ item }} state=present
-  with_items:
-   - apt-transport-https
-   - screen
-   - ufw
+  apt:
+    pkg:
+      - apt-transport-https
+      - screen
+      - ufw
+    state: present
 
 - name: Install Python tools
-  apt: name={{ item }} state=present
-  with_items:
-   - python-dev
-   - python-pip
+  apt:
+    pkg:
+      - python-dev
+      - python-pip
+    state: present
 
 - name: Install some basic packages
-  apt: name={{ item }} state=present
-  with_items:
-   - vim
-   - git
-   - curl
+  apt:
+    pkg:
+      - vim
+      - git
+      - curl
+    state: present
 
 - ufw:
     state: enabled
@@ -50,9 +53,7 @@
 # - local_action: copy content="test" dest=~/.privacybox/credentials
 
 - name: Check if ZSH is present.
-  apt: name={{ item }} state=present
-  with_items:
-   - zsh
+  apt: pkg=zsh state=present
 
 - name: Clone Antigen from Github
   git: repo=https://github.com/zsh-users/antigen.git dest=~/zsh-config

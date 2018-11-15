@@ -1,7 +1,7 @@
 ---
 - name: Install MariaDB, Nginx, PHP-FPM and Redis
   hosts: all
-  remote_user: fabio
+  remote_user: root
   become: yes
   become_method: sudo
 
@@ -13,7 +13,7 @@
     - redis
     - phpmyadmin
     - nextcloud
-    - wallabag
+    # - wallabag
     - ampache
     - irssi
     - prosody

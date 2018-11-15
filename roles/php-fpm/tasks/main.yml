@@ -1,24 +1,25 @@
 ---
 - name: Install php-fpm and deps
-  apt: name={{ item }} state=present
-  with_items:
-    - php7.0-dev
-    - php7.0-cli
-    - php7.0-fpm
-    - php7.0-zip
-    - php7.0-mbstring
-    - php-redis
-    - php7.0-gd
-    - php7.0-xml
-    - php7.0-intl
-    - php7.0-json
-    - php7.0-mcrypt
-    - php7.0-sqlite3
-    - php7.0-mysql
-    - php7.0-curl
-    - php7.0-tidy
-    - php7.0-bcmath
-    - composer
+  apt:
+    pkg:
+      - php7.0-dev
+      - php7.0-cli
+      - php7.0-fpm
+      - php7.0-zip
+      - php7.0-mbstring
+      - php-redis
+      - php7.0-gd
+      - php7.0-xml
+      - php7.0-intl
+      - php7.0-json
+      - php7.0-mcrypt
+      - php7.0-sqlite3
+      - php7.0-mysql
+      - php7.0-curl
+      - php7.0-tidy
+      - php7.0-bcmath
+      - composer
+    state: present
 
 # - name: Disable default pool
 #   command: mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.disabled creates=/etc/php-fpm.d/www.disabled

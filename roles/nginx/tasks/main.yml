@@ -1,6 +1,6 @@
 ---
 - name: Install nginx
-  apt: name=nginx state=present
+  apt: pkg=nginx state=present
 
 - name: Copy default Nginx configuration
   template: src=default.conf dest=/etc/nginx/sites-available/default

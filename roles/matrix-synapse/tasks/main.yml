@@ -1,17 +1,18 @@
 ---
 - name: Installing prerequisites
-  apt: name={{ item }} state=present
-  with_items:
-    - build-essential
-    - python2.7-dev
-    - libffi-dev
-    - python-pip
-    - python-setuptools
-    - sqlite3
-    - libssl-dev
-    - python-virtualenv
-    - libjpeg-dev
-    - libxslt1-dev
+  apt:
+    pkg:
+      - build-essential
+      - python2.7-dev
+      - libffi-dev
+      - python-pip
+      - python-setuptools
+      - sqlite3
+      - libssl-dev
+      - python-virtualenv
+      - libjpeg-dev
+      - libxslt1-dev
+    state: present
 
 - name: Add an Apt signing key
   apt_key:
@@ -27,9 +28,7 @@
     line: 'deb-src https://matrix.org/packages/debian/ stretch main'
 
 - name: Install Matrix Synapse package
-  apt: name={{ item }} update_cache=yes state=present
-  with_items:
-   - matrix-synapse
+  apt: pkg=matrix-synapse update_cache=yes state=present
 
 - name: Copy Nextcloud server block (HTTP)
   template: src=nginx.conf dest=/etc/nginx/sites-available/matrix.{{ privacybox_domain }}.conf

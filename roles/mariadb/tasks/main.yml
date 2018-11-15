@@ -1,10 +1,11 @@
 ---
 - name: Install MariaDB package
-  apt: name={{ item }} state=present
-  with_items:
-   - mariadb-server
-   - libmariadbclient-dev
-   - mariadb-client
+  apt:
+    pkg:
+      - mariadb-server
+      - libmariadbclient-dev
+      - mariadb-client
+    state: present
 
 - name: Create MariaDB configuration file
   template: src=my.cnf.j2 dest=/etc/my.cnf
@@ -12,7 +13,6 @@
   - restart mysql
 
 - name: Install the MySQL-python through pip
-  sudo: yes
   pip:
     name: "{{ item }}"
     state: forcereinstall

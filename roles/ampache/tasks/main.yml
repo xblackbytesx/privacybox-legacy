@@ -30,9 +30,7 @@
   command: chdir=/var/www/ampache sudo -u www-data composer install --prefer-source --no-interaction
 
 - name: Install FFMPEG for transcoding
-  apt: name={{ item }} state=present
-  with_items:
-   - ffmpeg
+  apt: pkg=ffmpeg state=present
 
 - name: Add group "ampache"
   group: name=ampache
