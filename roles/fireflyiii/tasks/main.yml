@@ -1,0 +1,49 @@
+---
+- name: Make sure Firefly-iii path does not yet exist
+  file:
+    state: absent
+    path: /var/www/firefly-iii
+
+- name: Clone Firefly-iii from Github
+  git: repo=https://github.com/firefly-iii/firefly-iii.git dest=/var/www/firefly-iii
+  notify:
+  - fix webroot permissions
+
+- name: Copy Firefly-iii parameters
+  template: src=parameters.yml dest=/var/www/firefly-iii/app/config/parameters.yml
+
+- name: Add group "firefly-iii"
+  group: name=firefly-iii
+
+- name: Add user "firefly-iii"
+  user: name=firefly-iii group=firefly-iii home=/var/www/firefly-iii/
+
+- name: Create Firefly-iii database
+  mysql_db: name={{ wb_db_name }} state=present
+
+- name: Create Firefly-iii database user
+  mysql_user: name={{ wb_db_user }} password={{ wb_db_password }} priv={{ wb_db_name }}.*:ALL host='localhost' state=present
+
+- name: fix webroot permissions
+  file:
+    path: /var/www
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Composer install dependencies
+  command: chdir=/var/www/firefly-iii sudo -u www-data make
+
+- name: Copy Firefly-iii server block
+  template: src=nginx.conf dest=/etc/nginx/sites-available/finance.{{ privacybox_domain }}.conf
+
+- name: setup nginx symlinks
+  file: path=/etc/nginx/sites-enabled/finance.{{ privacybox_domain }}.conf
+        src=/etc/nginx/sites-available/finance.{{ privacybox_domain }}.conf
+        state=link
+        force=yes
+  notify: restart nginx
+
+- name: Start php-fpm Service
+  service: name=php7.3-fpm state=started enabled=yes

@@ -14,7 +14,7 @@
     - phpmyadmin
     - nextcloud
     # - wallabag
-    - ampache
+    # - ampache
     - irssi
     - prosody
     - matrix-synapse

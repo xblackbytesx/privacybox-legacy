@@ -1,23 +1,33 @@
 ---
+- name: Add Yarn signing key
+  apt_key:
+    url: https://packages.sury.org/php/apt.gpg
+    state: present
+
+- lineinfile:
+    path: /etc/apt/sources.list
+    line: 'deb https://packages.sury.org/php/ stretch main'
+
 - name: Install php-fpm and deps
   apt:
+    update_cache: yes
     pkg:
-      - php7.0-dev
-      - php7.0-cli
-      - php7.0-fpm
-      - php7.0-zip
-      - php7.0-mbstring
+      - php7.3-dev
+      - php7.3-cli
+      - php7.3-fpm
+      - php7.3-zip
+      - php7.3-mbstring
       - php-redis
-      - php7.0-gd
-      - php7.0-xml
-      - php7.0-intl
-      - php7.0-json
-      - php7.0-mcrypt
-      - php7.0-sqlite3
-      - php7.0-mysql
-      - php7.0-curl
-      - php7.0-tidy
-      - php7.0-bcmath
+      - php7.3-gd
+      - php7.3-xml
+      - php7.3-intl
+      - php7.3-json
+      - php7.3-sqlite3
+      - php7.3-mysql
+      - php7.3-curl
+      - php7.3-tidy
+      - php7.3-bcmath
+      - php-imagick
       - composer
     state: present
 
@@ -30,57 +40,57 @@
 #   notify: restart php-fpm
 
 - ini_file:
-    path: /etc/php/7.0/fpm/php.ini
+    path: /etc/php/7.3/fpm/php.ini
     section: opcache
     option: opcache.enable
     value: 1
 
 - ini_file:
-    path: /etc/php/7.0/fpm/php.ini
+    path: /etc/php/7.3/fpm/php.ini
     section: opcache
     option: opcache.enable_cli
     value: 1
 
 - ini_file:
-    path: /etc/php/7.0/fpm/php.ini
+    path: /etc/php/7.3/fpm/php.ini
     section: opcache
     option: opcache.interned_strings_buffer
     value: 8
 
 - ini_file:
-    path: /etc/php/7.0/fpm/php.ini
+    path: /etc/php/7.3/fpm/php.ini
     section: opcache
     option: opcache.max_accelerated_files
     value: 10000
 
 - ini_file:
-    path: /etc/php/7.0/fpm/php.ini
+    path: /etc/php/7.3/fpm/php.ini
     section: opcache
     option: opcache.memory_consumption
     value: 128
 
 - ini_file:
-    path: /etc/php/7.0/fpm/php.ini
+    path: /etc/php/7.3/fpm/php.ini
     section: opcache
     option: opcache.save_comments
     value: 1
 
 - ini_file:
-    path: /etc/php/7.0/fpm/php.ini
+    path: /etc/php/7.3/fpm/php.ini
     section: opcache
     option: opcache.revalidate_freq
     value: 1
 
 - name: Link fpm and cli ini configs
-  file: path=/etc/php/7.0/cli/php.ini
-        src=/etc/php/7.0/fpm/php.ini
+  file: path=/etc/php/7.3/cli/php.ini
+        src=/etc/php/7.3/fpm/php.ini
         state=link
         force=yes
   notify: restart php-fpm
 
 - name: Ensure PHP environment variables are available
   lineinfile:
-    dest: /etc/php/7.0/fpm/pool.d/www.conf
+    dest: /etc/php/7.3/fpm/pool.d/www.conf
     regexp: ;env[PATH] = /usr/local/bin:/usr/bin:/bin
     line: env[PATH] = /usr/local/bin:/usr/bin:/bin
   notify: restart php-fpm
