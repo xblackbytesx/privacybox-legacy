@@ -28,22 +28,12 @@
   - fix webroot permissions
   - reload nginx
 
-- name: Copy Nextcloud server block (HTTP)
+- name: Copy Nextcloud server block
   template: src=nginx.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
-
-- name: Copy Nextcloud server block (HTTPS)
-  template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
 
 - name: setup nginx http symlinks
   file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}.conf
         src=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
-        state=link
-        force=yes
-  notify: reload nginx
-
-- name: setup nginx https symlinks
-  file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}-ssl.conf
-        src=/etc/nginx/sites-available/{{ privacybox_domain }}-ssl.conf
         state=link
         force=yes
   notify: reload nginx

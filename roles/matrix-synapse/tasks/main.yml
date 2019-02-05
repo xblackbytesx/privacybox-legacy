@@ -30,22 +30,12 @@
 - name: Install Matrix Synapse package
   apt: pkg=matrix-synapse update_cache=yes state=present
 
-- name: Copy Nextcloud server block (HTTP)
+- name: Copy Nextcloud server block
   template: src=nginx.conf dest=/etc/nginx/sites-available/matrix.{{ privacybox_domain }}.conf
-
-- name: Copy Nextcloud server block (HTTPS)
-  template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/matrix.{{ privacybox_domain }}-ssl.conf
 
 - name: setup nginx symlinks
   file: path=/etc/nginx/sites-enabled/matrix.{{ privacybox_domain }}.conf
         src=/etc/nginx/sites-available/matrix.{{ privacybox_domain }}.conf
-        state=link
-        force=yes
-  notify: restart nginx
-
-- name: setup nginx https symlinks
-  file: path=/etc/nginx/sites-enabled/matrix.{{ privacybox_domain }}-ssl.conf
-        src=/etc/nginx/sites-available/matrix.{{ privacybox_domain }}-ssl.conf
         state=link
         force=yes
   notify: restart nginx

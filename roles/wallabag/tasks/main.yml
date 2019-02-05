@@ -4,19 +4,15 @@
     state: absent
     path: /var/www/wallabag
 
-- name: Clone Wallabag from Github
-  git: repo=https://github.com/wallabag/wallabag.git dest=/var/www/wallabag
-  notify:
-  - fix webroot permissions
+- name: checkout repo
+  git: repo=https://github.com/wallabag/wallabag.git version=master dest=/var/www/wallabag
+  become_user: www-data
 
-- name: Copy Wallabag parameters
-  template: src=parameters.yml dest=/var/www/wallabag/app/config/parameters.yml
-
-- name: Add group "wallabag"
-  group: name=wallabag
-
-- name: Add user "wallabag"
-  user: name=wallabag group=wallabag home=/var/www/wallabag/
+# - name: Add group "wallabag"
+#   group: name=wallabag
+#
+# - name: Add user "wallabag"
+#   user: name=wallabag group=wallabag home=/var/www/wallabag/
 
 - name: Create Wallabag database
   mysql_db: name={{ wb_db_name }} state=present
@@ -24,33 +20,33 @@
 - name: Create Wallabag database user
   mysql_user: name={{ wb_db_user }} password={{ wb_db_password }} priv={{ wb_db_name }}.*:ALL host='localhost' state=present
 
-- name: fix webroot permissions
-  file:
-    path: /var/www
-    state: directory
-    owner: www-data
-    group: www-data
-    recurse: yes
+# - name: fix webroot permissions
+#   file:
+#     path: /var/www
+#     state: directory
+#     owner: www-data
+#     group: www-data
+#     recurse: yes
 
-- name: Composer install dependencies
-  command: chdir=/var/www/wallabag sudo -u www-data make
+# - name: Composer install dependencies
+#   command: chdir=/var/www/wallabag sudo -u www-data make install
 
-- name: Copy Wallabag server block (HTTP)
+- name: Copy Wallabag parameters
+  template: src=parameters.yml dest=/var/www/wallabag/app/config/parameters.yml
+  become_user: www-data
+
+- name: make
+  command: make install
+  args:
+    chdir: /var/www/wallabag
+  become_user: www-data
+
+- name: Copy Wallabag server block
   template: src=nginx.conf dest=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}.conf
-
-- name: Copy Wallabag server block (HTTPS)
-  template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}-ssl.conf
 
 - name: setup nginx symlinks
   file: path=/etc/nginx/sites-enabled/wallabag.{{ privacybox_domain }}.conf
         src=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}.conf
-        state=link
-        force=yes
-  notify: restart nginx
-
-- name: setup nginx https symlinks
-  file: path=/etc/nginx/sites-enabled/wallabag.{{ privacybox_domain }}-ssl.conf
-        src=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}-ssl.conf
         state=link
         force=yes
   notify: restart nginx

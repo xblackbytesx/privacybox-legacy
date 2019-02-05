@@ -13,8 +13,8 @@
     - redis
     - phpmyadmin
     - nextcloud
-    # - wallabag
-    # - ampache
+    - wallabag
+    - ampache
     - irssi
     - prosody
     - matrix-synapse

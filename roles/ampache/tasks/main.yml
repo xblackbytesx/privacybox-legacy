@@ -38,22 +38,12 @@
 - name: Add user "ampache"
   user: name=ampache group=ampache home=/var/www/ampache/
 
-- name: Copy Ampache server block (HTTP)
+- name: Copy Ampache server block
   template: src=nginx.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain }}.conf
-
-- name: Copy Ampache server block (HTTPS)
-  template: src=nginx-ssl.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain }}-ssl.conf
 
 - name: setup nginx symlinks
   file: path=/etc/nginx/sites-enabled/music.{{ privacybox_domain }}.conf
         src=/etc/nginx/sites-available/music.{{ privacybox_domain }}.conf
-        state=link
-        force=yes
-  notify: reload nginx
-
-- name: setup nginx https symlinks
-  file: path=/etc/nginx/sites-enabled/music.{{ privacybox_domain }}-ssl.conf
-        src=/etc/nginx/sites-available/music.{{ privacybox_domain }}-ssl.conf
         state=link
         force=yes
   notify: reload nginx
