@@ -6,17 +6,14 @@
 
 - name: Clone Firefly-iii from Github
   git: repo=https://github.com/firefly-iii/firefly-iii.git dest=/var/www/firefly-iii
-  notify:
-  - fix webroot permissions
+  become: yes
+  become_user: www-data
 
-- name: Copy Firefly-iii parameters
-  template: src=parameters.yml dest=/var/www/firefly-iii/app/config/parameters.yml
-
-- name: Add group "firefly-iii"
-  group: name=firefly-iii
-
-- name: Add user "firefly-iii"
-  user: name=firefly-iii group=firefly-iii home=/var/www/firefly-iii/
+# - name: Add group "firefly-iii"
+#   group: name=firefly-iii
+#
+# - name: Add user "firefly-iii"
+#   user: name=firefly-iii group=firefly-iii home=/var/www/firefly-iii/
 
 - name: Create Firefly-iii database
   mysql_db: name={{ wb_db_name }} state=present
@@ -24,16 +21,15 @@
 - name: Create Firefly-iii database user
   mysql_user: name={{ wb_db_user }} password={{ wb_db_password }} priv={{ wb_db_name }}.*:ALL host='localhost' state=present
 
-- name: fix webroot permissions
-  file:
-    path: /var/www
-    state: directory
-    owner: www-data
-    group: www-data
-    recurse: yes
-
 - name: Composer install dependencies
-  command: chdir=/var/www/firefly-iii sudo -u www-data make
+  command: chdir=/var/www/firefly-iii composer create-project grumpydictator/firefly-iii --no-dev --prefer-dist firefly-iii 4.7.10
+  become: yes
+  become_user: www-data
+
+  php artisan migrate:refresh --seed
+php artisan firefly:upgrade-database
+php artisan firefly:verify
+php artisan passport:install
 
 - name: Copy Firefly-iii server block
   template: src=nginx.conf dest=/etc/nginx/sites-available/finance.{{ privacybox_domain }}.conf

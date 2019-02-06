@@ -6,9 +6,8 @@
 
 - name: Clone Ampache from Github
   git: repo=https://github.com/ampache/ampache.git dest=/var/www/ampache
-
-  notify:
-  - fix webroot permissions
+  become: yes
+  become_user: www-data
 
 # - composer:
 #     command: install
@@ -17,26 +16,19 @@
 #
 #   become_user: www-data
 
-- name: fix webroot permissions
-  file:
-    path: /var/www
-    mode: 0755
-    state: directory
-    owner: www-data
-    group: www-data
-    recurse: yes
-
 - name: Composer stuff
-  command: chdir=/var/www/ampache sudo -u www-data composer install --prefer-source --no-interaction
+  command: chdir=/var/www/ampache composer install --prefer-source --no-interaction
+  become: yes
+  become_user: www-data
 
 - name: Install FFMPEG for transcoding
   apt: pkg=ffmpeg state=present
 
-- name: Add group "ampache"
-  group: name=ampache
-
-- name: Add user "ampache"
-  user: name=ampache group=ampache home=/var/www/ampache/
+# - name: Add group "ampache"
+#   group: name=ampache
+#
+# - name: Add user "ampache"
+#   user: name=ampache group=ampache home=/var/www/ampache/
 
 - name: Copy Ampache server block
   template: src=nginx.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain }}.conf

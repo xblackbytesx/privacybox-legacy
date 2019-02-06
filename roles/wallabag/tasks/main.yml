@@ -28,18 +28,20 @@
 #     group: www-data
 #     recurse: yes
 
-# - name: Composer install dependencies
-#   command: chdir=/var/www/wallabag sudo -u www-data make install
-
 - name: Copy Wallabag parameters
   template: src=parameters.yml dest=/var/www/wallabag/app/config/parameters.yml
   become_user: www-data
 
-- name: make
-  command: make install
-  args:
-    chdir: /var/www/wallabag
+- name: Composer install dependencies
+  command: chdir=/var/www/wallabag make install
+  become: yes
   become_user: www-data
+
+# - name: make
+#   command: make install
+#   args:
+#     chdir: /var/www/wallabag
+#   become_user: www-data
 
 - name: Copy Wallabag server block
   template: src=nginx.conf dest=/etc/nginx/sites-available/wallabag.{{ privacybox_domain }}.conf

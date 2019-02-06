@@ -26,4 +26,5 @@ Example `/etc/hosts` file:
 127.0.0.1 music.privacy.box
 127.0.0.1 matrix.privacy.box
 127.0.0.1 chat.privacy.box
+127.0.0.1 phpmyadmin.privacy.box
 ```
