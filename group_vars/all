@@ -5,13 +5,16 @@ machine_user: www-data
 machine_pass: secret
 
 # Which version of Nextcloud to deploy
-nc_version: 15.0.2
-nc_sha256sum: c1f4cc33e39994ddbe6777370b62c30b7ae52136a0530c0b9922770803ca0fea
+nc_version: 15.0.4
+nc_sha256sum: f87db047c174f563e391a22c959d9ace767ca14ef0f97fc394f3061fc63d8f77
 
 # These are the Nextcloud database settings
 nc_db_name: nextcloud
 nc_db_user: nextcloud
 nc_db_password: secret
+
+# Which version of Firefly-III to deploy
+firefly_version: 4.7.10
 
 # These are the Wallabag database settings
 wb_db_name: wallabag

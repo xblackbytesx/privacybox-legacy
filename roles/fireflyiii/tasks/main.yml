@@ -4,10 +4,10 @@
     state: absent
     path: /var/www/firefly-iii
 
-- name: Clone Firefly-iii from Github
-  git: repo=https://github.com/firefly-iii/firefly-iii.git dest=/var/www/firefly-iii
-  become: yes
-  become_user: www-data
+# - name: Clone Firefly-iii from Github
+#   git: repo=https://github.com/firefly-iii/firefly-iii.git dest=/var/www/firefly-iii
+#   become: yes
+#   become_user: www-data
 
 # - name: Add group "firefly-iii"
 #   group: name=firefly-iii
@@ -22,14 +22,29 @@
   mysql_user: name={{ wb_db_user }} password={{ wb_db_password }} priv={{ wb_db_name }}.*:ALL host='localhost' state=present
 
 - name: Composer install dependencies
-  command: chdir=/var/www/firefly-iii composer create-project grumpydictator/firefly-iii --no-dev --prefer-dist firefly-iii 4.7.10
+  command: chdir=/var/www/firefly-iii composer create-project grumpydictator/firefly-iii --no-dev --prefer-dist firefly-iii {{ firefly_version }}
   become: yes
   become_user: www-data
 
-  php artisan migrate:refresh --seed
-php artisan firefly:upgrade-database
-php artisan firefly:verify
-php artisan passport:install
+- name: Run database migration
+  command: chdir=/var/www/firefly-iii php artisan migrate:refresh --seed
+  become: yes
+  become_user: www-data
+
+- name: Upgrade database
+  command: chdir=/var/www/firefly-iii php artisan firefly:upgrade-database
+  become: yes
+  become_user: www-data
+
+- name: Verifying
+  command: chdir=/var/www/firefly-iii php artisan firefly:verify
+  become: yes
+  become_user: www-data
+
+- name: Installing
+  command: chdir=/var/www/firefly-iii php artisan passport:install
+  become: yes
+  become_user: www-data
 
 - name: Copy Firefly-iii server block
   template: src=nginx.conf dest=/etc/nginx/sites-available/finance.{{ privacybox_domain }}.conf
