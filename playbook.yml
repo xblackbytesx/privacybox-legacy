@@ -15,7 +15,8 @@
     - nextcloud
     # - wallabag
     # - ampache
-    - fireflyiii
+    # - fireflyiii
+    - wireguard
     - irssi
     - prosody
     - matrix-synapse
