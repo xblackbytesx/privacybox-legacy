@@ -33,4 +33,4 @@ parameters:
     redis_path: /var/run/redis/redis.sock
     redis_password: null
     sites_credentials: {  }
-    domain_name: 'https://wallabag.{{ privacybox_domain }}:4430'
+    domain_name: 'https://wallabag.{{ privacybox_domain_name }}.{{ privacybox_tld }}:4430'

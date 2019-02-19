@@ -31,11 +31,11 @@
   apt: pkg=matrix-synapse update_cache=yes state=present
 
 - name: Copy Nextcloud server block
-  template: src=nginx.conf dest=/etc/nginx/sites-available/matrix.{{ privacybox_domain }}.conf
+  template: src=nginx.conf dest=/etc/nginx/sites-available/matrix.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
 
 - name: setup nginx symlinks
-  file: path=/etc/nginx/sites-enabled/matrix.{{ privacybox_domain }}.conf
-        src=/etc/nginx/sites-available/matrix.{{ privacybox_domain }}.conf
+  file: path=/etc/nginx/sites-enabled/matrix.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        src=/etc/nginx/sites-available/matrix.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
         state=link
         force=yes
   notify: restart nginx

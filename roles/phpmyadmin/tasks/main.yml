@@ -44,11 +44,11 @@
 #   user: name=phpmyadmin group=phpmyadmin home=/var/www/phpmyadmin/
 
 - name: Copy phpmyadmin server block
-  template: src=nginx.conf dest=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain }}.conf
+  template: src=nginx.conf dest=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
 
 - name: setup nginx http symlinks
-  file: path=/etc/nginx/sites-enabled/phpmyadmin.{{ privacybox_domain }}.conf
-        src=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain }}.conf
+  file: path=/etc/nginx/sites-enabled/phpmyadmin.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        src=/etc/nginx/sites-available/phpmyadmin.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
         state=link
         force=yes
   notify: reload nginx

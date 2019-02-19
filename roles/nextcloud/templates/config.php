@@ -5,10 +5,10 @@ $CONFIG = array (
   'secret' => '',
   'trusted_domains' =>
   array (
-    0 => '{{ privacybox_domain }}',
+    0 => '{{ privacybox_domain_name }}.{{ privacybox_tld }}',
   ),
   'datadirectory' => '/media/cloud',
-  'overwrite.cli.url' => 'https://{{ privacybox_domain }}',
+  'overwrite.cli.url' => 'https://{{ privacybox_domain_name }}.{{ privacybox_tld }}',
   'dbtype' => 'mysql',
   'version' => '{{ nc_version }}',
   'dbname' => '{{ nc_db_name }}',

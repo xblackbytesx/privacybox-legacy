@@ -47,11 +47,11 @@
   become_user: www-data
 
 - name: Copy Firefly-iii server block
-  template: src=nginx.conf dest=/etc/nginx/sites-available/finance.{{ privacybox_domain }}.conf
+  template: src=nginx.conf dest=/etc/nginx/sites-available/finance.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
 
 - name: setup nginx symlinks
-  file: path=/etc/nginx/sites-enabled/finance.{{ privacybox_domain }}.conf
-        src=/etc/nginx/sites-available/finance.{{ privacybox_domain }}.conf
+  file: path=/etc/nginx/sites-enabled/finance.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        src=/etc/nginx/sites-available/finance.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
         state=link
         force=yes
   notify: restart nginx

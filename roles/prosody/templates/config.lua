@@ -19,7 +19,7 @@
 -- for the server. Note that you must create the accounts separately
 -- (see http://prosody.im/doc/creating_accounts for info)
 -- Example: admins = { "user1@example.com", "user2@example.net" }
-admins = { "fabio@chat.{{ privacybox_domain }}" }
+admins = { "fabio@chat.{{ privacybox_domain_name }}.{{ privacybox_tld }}" }
 
 -- Enable use of libevent for better performance under high load
 -- For more information see: http://prosody.im/doc/libevent
@@ -94,16 +94,16 @@ bosh_ports = {
     port = 5281;
     path = "http-bind";
     ssl = {
-      certificate = "/etc/ssl/private/{{ privacybox_domain }}/server.crt";
-      key = "/etc/ssl/private/{{ privacybox_domain }}/server.key";
+      certificate = "/etc/ssl/private/{{ privacybox_domain_name }}.{{ privacybox_tld }}/server.crt";
+      key = "/etc/ssl/private/{{ privacybox_domain_name }}.{{ privacybox_tld }}/server.key";
     }
 }
 
 -- These are the SSL/TLS-related settings. If you don't want
 -- to use SSL/TLS, you may comment or remove this
 ssl = {
-  certificate = "/etc/ssl/private/{{ privacybox_domain }}/server.crt";
-	key = "/etc/ssl/private/{{ privacybox_domain }}/server.key";
+  certificate = "/etc/ssl/private/{{ privacybox_domain_name }}.{{ privacybox_tld }}/server.crt";
+	key = "/etc/ssl/private/{{ privacybox_domain_name }}.{{ privacybox_tld }}/server.key";
 }
 
 -- Force clients to use encrypted connections? This option will
@@ -168,10 +168,10 @@ log = {
 
 -- VirtualHost "localhost"
 
-VirtualHost "chat.{{ privacybox_domain }}"
+VirtualHost "chat.{{ privacybox_domain_name }}.{{ privacybox_tld }}"
 	ssl = {
-		certificate = "/etc/ssl/private/{{ privacybox_domain }}/server.crt";
-    key = "/etc/ssl/private/{{ privacybox_domain }}/server.key";
+		certificate = "/etc/ssl/private/{{ privacybox_domain_name }}.{{ privacybox_tld }}/server.crt";
+    key = "/etc/ssl/private/{{ privacybox_domain_name }}.{{ privacybox_tld }}/server.key";
 	}
 
 ------ Components ------
@@ -180,7 +180,7 @@ VirtualHost "chat.{{ privacybox_domain }}"
 -- For more information on components, see http://prosody.im/doc/components
 
 ---Set up a MUC (multi-user chat) room server on conference.example.com:
-Component "conf.{{ privacybox_domain }}" "muc"
+Component "conf.{{ privacybox_domain_name }}.{{ privacybox_tld }}" "muc"
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
 --Component "proxy.example.com" "proxy65"

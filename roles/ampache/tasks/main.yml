@@ -31,11 +31,11 @@
 #   user: name=ampache group=ampache home=/var/www/ampache/
 
 - name: Copy Ampache server block
-  template: src=nginx.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain }}.conf
+  template: src=nginx.conf dest=/etc/nginx/sites-available/music.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
 
 - name: setup nginx symlinks
-  file: path=/etc/nginx/sites-enabled/music.{{ privacybox_domain }}.conf
-        src=/etc/nginx/sites-available/music.{{ privacybox_domain }}.conf
+  file: path=/etc/nginx/sites-enabled/music.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        src=/etc/nginx/sites-available/music.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
         state=link
         force=yes
   notify: reload nginx

@@ -32,11 +32,11 @@
   become_user: www-data
 
 - name: Copy Nextcloud server block
-  template: src=nginx.conf dest=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
+  template: src=nginx.conf dest=/etc/nginx/sites-available/{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
 
 - name: setup nginx http symlink
-  file: path=/etc/nginx/sites-enabled/{{ privacybox_domain }}.conf
-        src=/etc/nginx/sites-available/{{ privacybox_domain }}.conf
+  file: path=/etc/nginx/sites-enabled/{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        src=/etc/nginx/sites-available/{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
         state=link
         force=yes
   notify: reload nginx
