@@ -16,7 +16,7 @@
     # - wallabag
     # - ampache
     # - fireflyiii
-    - wireguard
+    # - wireguard
     - irssi
     - prosody
     - matrix-synapse

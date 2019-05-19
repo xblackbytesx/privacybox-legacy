@@ -9,13 +9,13 @@
 - ufw:
     state: enabled
     rule: allow
-    port: 80
+    port: '80'
     proto: tcp
 
 - ufw:
     state: enabled
     rule: allow
-    port: 443
+    port: '443'
     proto: tcp
 
 - name: Remove the default html folder

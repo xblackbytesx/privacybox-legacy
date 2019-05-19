@@ -34,7 +34,7 @@
 - ufw:
     state: enabled
     rule: allow
-    port: 22
+    port: '22'
 
 - name: Create directory to hold SSL certificates
   file:
