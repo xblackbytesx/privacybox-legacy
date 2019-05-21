@@ -17,7 +17,9 @@ Ensure you have the following software installed on your host system:
 #### Easy-access links for Vagrant testing:
 https://privacy.box:4430  
 https://wallabag.privacy.box:4430  
+https://jackett.privacy.box:4430  
 https://music.privacy.box:4430
+https://phpmyadmin.privacy.box:4430  
 
 Example `/etc/hosts` file:
 ```

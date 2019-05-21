@@ -8,6 +8,7 @@
 - lineinfile:
     path: /etc/apt/sources.list.d/mono-official-stable.list
     line: 'deb https://download.mono-project.com/repo/debian stable-stretch main'
+    create: yes
 
 - name: Install Mono and deps
   apt:

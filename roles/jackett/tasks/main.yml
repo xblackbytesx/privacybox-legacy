@@ -29,3 +29,13 @@
   notify:
   - fix webroot permissions
   - reload nginx
+
+- name: Copy Jackett server block
+  template: src=jackett.conf dest=/etc/nginx/sites-available/jackett.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+
+- name: setup nginx http symlink
+  file: path=/etc/nginx/sites-enabled/jackett.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        src=/etc/nginx/sites-available/jackett.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        state=link
+        force=yes
+  notify: reload nginx
