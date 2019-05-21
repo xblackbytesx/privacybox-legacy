@@ -10,12 +10,14 @@
     - mariadb
     - nginx
     - php-fpm
+    - mono
     - redis
     - phpmyadmin
     - nextcloud
     # - wallabag
     # - ampache
     # - fireflyiii
+    - jackett
     # - wireguard
     - irssi
     - prosody

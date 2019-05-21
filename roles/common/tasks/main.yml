@@ -38,7 +38,7 @@
 
 - name: Create directory to hold SSL certificates
   file:
-    path: /etc/ssl/private/{{ privacybox_domain_name }}.{{ privacybox_tld }}
+    path: /etc/ssl/private/{{ privacybox_domain }}
     state: directory
     owner: www-data
     group: www-data
@@ -46,7 +46,7 @@
     recurse: yes
 
 - name: create self-signed SSL certificate
-  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ privacybox_domain_name }}.{{ privacybox_tld }}" -days 3650 -keyout /etc/ssl/private/{{ privacybox_domain_name }}.{{ privacybox_tld }}/server.key -out /etc/ssl/private/{{ privacybox_domain_name }}.{{ privacybox_tld }}/server.crt -extensions v3_ca creates=/etc/ssl/private/{{ privacybox_domain_name }}.{{ privacybox_tld }}/server.crt
+  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ privacybox_domain }}" -days 3650 -keyout /etc/ssl/private/{{ privacybox_domain }}/server.key -out /etc/ssl/private/{{ privacybox_domain }}/server.crt -extensions v3_ca creates=/etc/ssl/private/{{ privacybox_domain }}/server.crt
 
 # - name: Reload ansible_facts
 #   setup:
