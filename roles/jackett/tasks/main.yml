@@ -1,0 +1,31 @@
+- name: Install Jackett dependencies
+  apt:
+    update_cache: yes
+    pkg:
+      - libcurl4-openssl-dev
+      - dirmngr
+      - gnupg
+      - ca-certificates
+    state: present
+
+- name: Download Jackett
+  get_url: url=https://github.com/Jackett/Jackett/releases/download/v0.11.356/Jackett.Binaries.LinuxAMDx64.tar.gz
+           dest=/opt/jackett.tar.gz
+  become: yes
+
+- name: Unpack the downloadded archive
+  unarchive:
+    src: /opt/jackett.tar.gz
+    dest: /opt
+    remote_src: yes
+  become: yes
+
+- name: Rename the extracted folder
+  command: mv /opt/Jackett /opt/jackett
+  become: yes
+
+- name: Remove the extracted archive
+  file: path=/opt/jackett.tar.gz state=absent
+  notify:
+  - fix webroot permissions
+  - reload nginx
