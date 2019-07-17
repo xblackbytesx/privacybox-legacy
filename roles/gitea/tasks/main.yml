@@ -1,0 +1,4 @@
+- name: Download Gitea
+  get_url: url=https://dl.gitea.io/gitea/1.9/gitea-1.9-linux-amd64
+           dest=/opt/gitea
+  become: yes
