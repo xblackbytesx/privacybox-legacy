@@ -1,21 +1,14 @@
 ---
 privacybox_domain_name: privacy
 privacybox_tld: box
-
+privacybox_
 machine_user: www-data
 machine_pass: secret
-
-# Which version of Nextcloud to deploy
-nc_version: 16.0.1
-nc_sha256sum: a80ce586e9e930b2fba69707311e575346cd4dc4402e84678c730f9930d78aee
 
 # These are the Nextcloud database settings
 nc_db_name: nextcloud
 nc_db_user: nextcloud
 nc_db_password: secret
-
-# Which version of Firefly-III to deploy
-firefly_version: 4.7.17
 
 # Matrix-synapse
 matrix_registration_secret: f3061fc63d8f77f87db047c174f563eca14ef0f97391a22c959d9ace767fc394

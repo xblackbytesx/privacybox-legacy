@@ -1,0 +1,3 @@
+---
+# Which version of Firefly-III to deploy
+firefly_version: 4.7.17

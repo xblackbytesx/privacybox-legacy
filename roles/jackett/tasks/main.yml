@@ -9,7 +9,7 @@
     state: present
 
 - name: Download Jackett
-  get_url: url=https://github.com/Jackett/Jackett/releases/download/v0.11.356/Jackett.Binaries.LinuxAMDx64.tar.gz
+  get_url: url=https://github.com/Jackett/Jackett/releases/download/{{ jackett_version }}/Jackett.Binaries.LinuxAMDx64.tar.gz
            dest=/opt/jackett.tar.gz
   become: yes
 

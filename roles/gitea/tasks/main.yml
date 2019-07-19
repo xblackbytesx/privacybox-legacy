@@ -1,4 +1,14 @@
 - name: Download Gitea
-  get_url: url=https://dl.gitea.io/gitea/1.9/gitea-1.9-linux-amd64
+  get_url: url=https://dl.gitea.io/gitea/{{ gitea_version }}/gitea-{{ gitea_version }}-linux-amd64
            dest=/opt/gitea
   become: yes
+
+- name: Copy Gitea server block
+  template: src=gitea.conf dest=/etc/nginx/sites-available/vcs.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+
+- name: setup nginx http symlink
+  file: path=/etc/nginx/sites-enabled/vcs.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        src=/etc/nginx/sites-available/vcs.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        state=link
+        force=yes
+  notify: reload nginx
