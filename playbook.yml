@@ -18,6 +18,7 @@
     # - ampache
     # - fireflyiii
     - jackett
+    - gitea
     # - wireguard
     - irssi
     - prosody

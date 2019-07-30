@@ -1,0 +1,5 @@
+---
+# These are the Wallabag database settings
+wb_db_name: wallabag
+wb_db_user: wallabag
+wb_db_password: secret
