@@ -10,7 +10,7 @@
     - mariadb
     - nginx
     - php-fpm
-    - mono
+    # - mono
     - redis
     - phpmyadmin
     - nextcloud
