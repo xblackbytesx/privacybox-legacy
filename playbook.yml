@@ -14,6 +14,7 @@
     - redis
     - phpmyadmin
     - nextcloud
+    - syncthing
     # - wallabag
     # - ampache
     # - fireflyiii
@@ -22,5 +23,5 @@
     # - wireguard
     - irssi
     - prosody
-    - matrix-synapse
+    # - matrix-synapse
     - webdev-tools

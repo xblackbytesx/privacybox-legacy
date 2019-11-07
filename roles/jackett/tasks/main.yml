@@ -31,7 +31,7 @@
   - reload nginx
 
 - name: Copy Jackett server block
-  template: src=jackett.conf dest=/etc/nginx/sites-available/jackett.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+  template: src=nginx.conf dest=/etc/nginx/sites-available/jackett.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
 
 - name: setup nginx http symlink
   file: path=/etc/nginx/sites-enabled/jackett.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf

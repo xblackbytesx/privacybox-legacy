@@ -1,0 +1,43 @@
+- name: Download Syncthing
+  get_url: url=https://github.com/syncthing/syncthing/releases/download/{{ syncthing_version }}/syncthing-linux-amd64-{{ syncthing_version }}.tar.gz
+           dest=/opt/syncthing.tar.gz
+  become: yes
+
+- name: Unpack the downloadded archive
+  unarchive:
+    src: /opt/syncthing.tar.gz
+    dest: /opt
+    remote_src: yes
+  become: yes
+
+- name: Rename the extracted folder
+  command: mv /opt/syncthing-linux-amd64-{{ syncthing_version }} /opt/syncthing
+  become: yes
+
+- name: Remove the extracted archive
+  file: path=/opt/syncthing.tar.gz state=absent
+  notify:
+  - fix webroot permissions
+  - reload nginx
+
+- name: Copy Syncthing systemd service
+  template: src=systemd.service dest=/lib/systemd/system/syncthing@.service
+
+- name: setup nginx http symlink
+  file: path=/etc/systemd/system/multi-user.target.wants/syncthing@vagrant.service
+        src=/lib/systemd/system/syncthing@.service
+        state=link
+        force=yes
+
+- name: start syncthing service
+  service: name=syncthing@vagrant state=started enabled=yes
+
+- name: Copy Syncthing server block
+  template: src=nginx.conf dest=/etc/nginx/sites-available/syncthing.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+
+- name: setup nginx http symlink
+  file: path=/etc/nginx/sites-enabled/syncthing.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        src=/etc/nginx/sites-available/syncthing.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        state=link
+        force=yes
+  notify: reload nginx
