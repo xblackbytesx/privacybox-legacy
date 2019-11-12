@@ -16,7 +16,7 @@
     - nextcloud
     - syncthing
     # - wallabag
-    # - ampache
+    - ampache
     # - fireflyiii
     - jackett
     - gitea
