@@ -5,7 +5,7 @@
     path: /var/www/ampache
 
 - name: Clone Ampache from Github
-  git: repo=https://github.com/ampache/ampache.git dest=/var/www/ampache
+  git: repo=https://github.com/ampache/ampache.git dest=/var/www/ampache version: develop
   become: yes
   become_user: www-data
 
