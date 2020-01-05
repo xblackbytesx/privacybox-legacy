@@ -1,0 +1,39 @@
+---
+- name: Download Matomo
+  get_url: url=https://builds.matomo.org/matomo.zip
+           dest=/var/www/matomo.zip
+  become: yes
+  become_user: www-data
+
+- name: Extract archive
+  command: chdir=/var/www/ /bin/unzip matomo.zip creates=/var/www/matomo
+  become: yes
+  become_user: www-data
+
+- name: Remove the extracted archive
+  file: path=/var/www/matomo.zip state=absent
+
+# - name: Add group "Matomo"
+#   group: name=Matomo
+#
+# - name: Add user "Matomo"
+#   user: name=Matomo group=Matomo home=/var/www/Matomo/
+
+- name: Create Matomo database
+  mysql_db: name={{ matomo_db_name }} state=present
+
+- name: Create Matomo database user
+  mysql_user: name={{ matomo_db_user }} password={{ matomo_db_password }} priv={{ matomo_db_name }}.*:ALL host='localhost' state=present
+
+- name: Copy Matomo server block
+  template: src=nginx.conf dest=/etc/nginx/sites-available/stats.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+
+- name: setup nginx http symlink
+  file: path=/etc/nginx/sites-enabled/stats.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        src=/etc/nginx/sites-available/stats.{{ privacybox_domain_name }}.{{ privacybox_tld }}.conf
+        state=link
+        force=yes
+  notify: reload nginx
+
+- name: Start php-fpm Service
+  service: name=php7.3-fpm state=started enabled=yes

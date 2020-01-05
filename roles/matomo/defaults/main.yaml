@@ -1,0 +1,5 @@
+---
+# These are the Nextcloud database settings
+matomo_db_name: matomo
+matomo_db_user: matomo
+matomo_db_password: secret

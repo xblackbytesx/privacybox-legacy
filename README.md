@@ -17,6 +17,7 @@ Ensure you have the following software installed on your host system:
 #### Easy-access links for Vagrant testing:
 https://privacy.box:4430  
 https://syncthing.privacy.box:4430  
+https://stats.privacy.box:4430  
 https://wallabag.privacy.box:4430  
 https://music.privacy.box:4430
 https://jackett.privacy.box:4430  
@@ -28,6 +29,7 @@ Example `/etc/hosts` file:
 ```
 127.0.0.1 privacy.box
 127.0.0.1 syncthing.privacy.box
+127.0.0.1 stats.privacy.box
 127.0.0.1 wallabag.privacy.box
 127.0.0.1 music.privacy.box
 127.0.0.1 matrix.privacy.box

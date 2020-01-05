@@ -29,6 +29,8 @@
       - vim
       - git
       - curl
+      - wget
+      - unzip
     state: present
 
 - ufw:
