@@ -1,7 +1,7 @@
 ---
 # Which version of Nextcloud to deploy
-nc_version: '17.0.0'
-nc_sha256sum: 6081421b33ecdb3130b2bfb2293a3f4045aeb0b471ee570e675de3d931a142a6
+nc_version: '18.0.1'
+nc_sha256sum: 770faf34b8f0d81273623daed4d64ec7919c38dfeb07328b613058addbed19c0
 
 # These are the Nextcloud database settings
 nc_db_name: nextcloud

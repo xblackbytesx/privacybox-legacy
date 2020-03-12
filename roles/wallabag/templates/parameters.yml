@@ -6,14 +6,15 @@ parameters:
     database_name: {{ wb_db_name }}
     database_user: {{ wb_db_user }}
     database_password: {{ wb_db_password }}
-    database_path: var/lib/mysql/wallabag
+    database_path: null
     database_table_prefix: wallabag_
     database_socket: null
-    database_charset: utf8
+    database_charset: utf8mb4
+    domain_name: 'https://wallabag.{{ privacybox_domain_name }}.{{ privacybox_tld }}:4430'
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: null
-    mailer_password: null
+    mailer_host: {{ wb_smtp_host }}
+    mailer_user: {{ wb_smtp_user }}
+    mailer_password: {{ wb_smtp_pass }}
     locale: en
     secret: {{ lookup('password', '/dev/null length=15 chars=ascii_letters') }}
     twofactor_auth: true
@@ -32,5 +33,3 @@ parameters:
     redis_port: 6379
     redis_path: /var/run/redis/redis.sock
     redis_password: null
-    sites_credentials: {  }
-    domain_name: 'https://wallabag.{{ privacybox_domain_name }}.{{ privacybox_tld }}:4430'

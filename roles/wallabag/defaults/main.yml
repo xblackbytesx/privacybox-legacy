@@ -3,3 +3,7 @@
 wb_db_name: wallabag
 wb_db_user: wallabag
 wb_db_password: secret
+wb_smtp_host: smtp.gmail.com
+wb_smtp_user: example@example.com
+wb_smtp_pass: secret
+

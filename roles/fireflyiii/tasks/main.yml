@@ -57,4 +57,4 @@
   notify: restart nginx
 
 - name: Start php-fpm Service
-  service: name=php7.3-fpm state=started enabled=yes
+  service: name=php7.4-fpm state=started enabled=yes
