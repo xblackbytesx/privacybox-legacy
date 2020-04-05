@@ -39,6 +39,7 @@
 #   template: src=nextcloud.conf dest=/etc/php-fpm.d/
 #   notify: restart php-fpm
 
+# FPM
 - ini_file:
     path: /etc/php/7.4/fpm/php.ini
     section: opcache
@@ -50,6 +51,12 @@
     section: opcache
     option: opcache.enable_cli
     value: 1
+
+- ini_file:
+    path: /etc/php/7.4/fpm/php.ini
+    section: opcache
+    option: opcache.memory_consumption
+    value: 128
 
 - ini_file:
     path: /etc/php/7.4/fpm/php.ini
@@ -66,8 +73,8 @@
 - ini_file:
     path: /etc/php/7.4/fpm/php.ini
     section: opcache
-    option: opcache.memory_consumption
-    value: 128
+    option: opcache.revalidate_freq
+    value: 1
 
 - ini_file:
     path: /etc/php/7.4/fpm/php.ini
@@ -77,22 +84,59 @@
 
 - ini_file:
     path: /etc/php/7.4/fpm/php.ini
+    section: PHP
+    option: memory_limit
+    value: 1024M
+
+#  CLI
+- ini_file:
+    path: /etc/php/7.4/cli/php.ini
+    section: opcache
+    option: opcache.enable
+    value: 1
+
+- ini_file:
+    path: /etc/php/7.4/cli/php.ini
+    section: opcache
+    option: opcache.enable_cli
+    value: 1
+
+- ini_file:
+    path: /etc/php/7.4/cli/php.ini
+    section: opcache
+    option: opcache.memory_consumption
+    value: 128
+
+- ini_file:
+    path: /etc/php/7.4/cli/php.ini
+    section: opcache
+    option: opcache.interned_strings_buffer
+    value: 8
+
+- ini_file:
+    path: /etc/php/7.4/cli/php.ini
+    section: opcache
+    option: opcache.max_accelerated_files
+    value: 10000
+
+- ini_file:
+    path: /etc/php/7.4/cli/php.ini
     section: opcache
     option: opcache.revalidate_freq
     value: 1
 
 - ini_file:
-    path: /etc/php/7.4/fpm/php.ini
-    section: PHP
-    option: memory_limit
-    value: 1024M
+    path: /etc/php/7.4/cli/php.ini
+    section: opcache
+    option: opcache.save_comments
+    value: 1
 
-- name: Link fpm and cli ini configs
-  file: path=/etc/php/7.4/cli/php.ini
-        src=/etc/php/7.4/fpm/php.ini
-        state=link
-        force=yes
-  notify: restart php-fpm
+# - name: Link fpm and cli ini configs
+#   file: path=/etc/php/7.4/cli/php.ini
+#         src=/etc/php/7.4/fpm/php.ini
+#         state=link
+#         force=yes
+#   notify: restart php-fpm
 
 - name: Ensure PHP environment variables are available
   lineinfile:
